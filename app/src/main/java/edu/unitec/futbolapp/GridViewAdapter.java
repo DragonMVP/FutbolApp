@@ -2,6 +2,7 @@ package edu.unitec.futbolapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,12 +63,38 @@ public class GridViewAdapter extends BaseAdapter {
             grid = (View)convertView;
         }
 
-        ImageButton imgButton = (ImageButton) grid.findViewById(R.id.imgButton);
+        final ImageButton imgButton = (ImageButton) grid.findViewById(R.id.imgButton);
         imgButton.setImageResource(idFotos[position]);
         TextView txtDesc = (TextView)grid.findViewById(R.id.txtDesc);
         txtDesc.setText(textButton[position]);
+        imgButton.setTag(Integer.valueOf(position));
+
+        try {
+            imgButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch(Integer.valueOf(imgButton.getTag().toString())){
+                        case 0:
+                            break;
+                        case 1:
+                            Intent intent= new Intent(Contexto, ConfiguracionActivity.class);
+                            Contexto.startActivity(intent);
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         return grid;
     }
+
 }
