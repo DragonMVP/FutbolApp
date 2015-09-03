@@ -2,6 +2,7 @@ package edu.unitec.futbolapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ public class GridViewAdapter extends BaseAdapter {
             "Cerrar Sesion"
     };
 
+
+
     private Context Contexto;
     private Activity Actividad;
     public GridViewAdapter(Context context,Activity activity ) {
@@ -51,7 +54,7 @@ public class GridViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View grid;
 
         if(convertView==null){
@@ -64,6 +67,20 @@ public class GridViewAdapter extends BaseAdapter {
 
         ImageButton imgButton = (ImageButton) grid.findViewById(R.id.imgButton);
         imgButton.setImageResource(idFotos[position]);
+
+        imgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = null;
+                if (position == 1)
+                    startIntent = new Intent(v.getContext(),ClubActivity.class);
+
+                if (startIntent != null)
+                    Actividad.startActivity(startIntent);
+
+            }
+        });
+
         TextView txtDesc = (TextView)grid.findViewById(R.id.txtDesc);
         txtDesc.setText(textButton[position]);
 

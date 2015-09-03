@@ -2,6 +2,8 @@ package edu.unitec.futbolapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.GridView;
 
@@ -21,7 +23,12 @@ public class MenuPrincipalActivity extends Activity {
         maingridView.setColumnWidth(this.getResources().getDisplayMetrics().widthPixels/2);
 
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_menu_principal, menu);
+        return true;
+    }
     @Override
 
     public boolean onOptionsItemSelected(MenuItem item) {

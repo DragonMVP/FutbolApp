@@ -23,6 +23,10 @@
            android:label="MenuPrincpal"
            android:screenOrientation="portrait"
            ></activity>
+
+        <activity android:name=".ClubActivity"
+            android:label="Clubs"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
