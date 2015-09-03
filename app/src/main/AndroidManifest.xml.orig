@@ -16,6 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+        <activity
+            android:name=".MenuPrincipalActivity"
+            android:label="MenuPrincpal"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ConfiguracionActivity"
+            android:label="@string/title_activity_configuracion" >
+        </activity>
+=======
 
 
        <activity
@@ -24,15 +34,10 @@
            android:screenOrientation="portrait"
            ></activity>
 
-        <activity
-            android:name=".ConfiguracionActivity"
-            android:label="Configuracion"
-            android:screenOrientation="portrait"
-            ></activity>
-
         <activity android:name=".ClubActivity"
             android:label="Clubs"
             android:screenOrientation="portrait"></activity>
+>>>>>>> dde95f1a83e536dff345519114b3105e566e7cc9
     </application>
 
 </manifest>

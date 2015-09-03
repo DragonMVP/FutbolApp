@@ -94,6 +94,7 @@ public class GridViewAdapter extends BaseAdapter {
                             break;
                         case 1:
                             Intent intent= new Intent(Contexto, ConfiguracionActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             Contexto.startActivity(intent);
                             break;
                         case 2:
