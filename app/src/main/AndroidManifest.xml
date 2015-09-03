@@ -16,14 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MenuPrincipalActivity"
-            android:label="MenuPrincpal"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ConfiguracionActivity"
-            android:label="@string/title_activity_configuracion" >
-        </activity>
+
+
+       <activity
+           android:name=".MenuPrincipalActivity"
+           android:label="MenuPrincpal"
+           android:screenOrientation="portrait"
+           ></activity>
+
+        <activity android:name=".ClubActivity"
+            android:label="Clubs"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
