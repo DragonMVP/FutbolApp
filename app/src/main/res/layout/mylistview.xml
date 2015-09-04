@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FILLERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"
-        android:id="@+id/maintxt"
+        android:id="@+id/item_image"
+        android:src="@drawable/android_logo"
+        android:maxHeight="80dp"
+        android:maxWidth="80dp"
+        android:adjustViewBounds="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="20dp" />
+        android:layout_marginLeft="18dp" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FILERRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="maintxt"
+        android:id="@+id/maintxt"
+        android:layout_marginLeft="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/item_image"
+        android:editable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="optionaltxt"
         android:id="@+id/optionaltxt"
+        android:layout_marginLeft="39dp"
         android:layout_below="@+id/maintxt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="59dp"
-        android:layout_marginStart="59dp"
-        android:textSize="15dp" />
+        android:layout_alignLeft="@+id/maintxt" />
+
 </RelativeLayout>

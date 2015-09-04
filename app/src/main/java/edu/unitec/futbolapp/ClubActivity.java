@@ -24,8 +24,9 @@ public class ClubActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.club_layout);
-
-        CLUBS = new ArrayList();
+        MyDatabaseHandler db = new MyDatabaseHandler(getBaseContext());
+        CLUBS = db.getAllClubs();
+        db.close();
 
         lista = (ListView)findViewById(R.id.listClub);
         lista.setAdapter(new MyListViewAdapter(CLUBS,getBaseContext(),this));

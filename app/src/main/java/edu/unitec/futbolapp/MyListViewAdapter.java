@@ -54,13 +54,13 @@ public class MyListViewAdapter extends BaseAdapter {
             view = (View)convertView;
         }
 
-        String[] txtList = LISTA.get(position).toString().split("|");
+        String[] txtList = LISTA.get(position).toString().split(",");
         TextView maintxt = (TextView)view.findViewById(R.id.maintxt);
         TextView optionaltxt = (TextView)view.findViewById(R.id.optionaltxt);
         optionaltxt.setText("");
         if (txtList.length == 1) {
             maintxt.setText(txtList[0]);
-            optionaltxt.setText(txtList[0]);
+           // optionaltxt.setText(txtList[0]);
         }
         else{
             maintxt.setText(txtList[0]);

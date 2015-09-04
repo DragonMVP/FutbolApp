@@ -66,6 +66,6 @@ public class Jugador {
 
     @Override
     public String toString() {
-        return nombreJugador+"|"+numeroJugador;
+        return nombreJugador+","+numeroJugador;
     }
 }

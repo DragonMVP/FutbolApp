@@ -11,9 +11,10 @@ public class Equipo {
     private String nameEquipo;
     private List<Jugador> Jugadores;
 
-    public Equipo(int idEquipo, int idClub) {
+    public Equipo(int idEquipo,String nameEquipo ,int idClub) {
         this.idEquipo = idEquipo;
         this.idClub = idClub;
+        this.nameEquipo = nameEquipo;
     }
 
     public int getIdEquipo() {
@@ -38,6 +39,14 @@ public class Equipo {
 
     public void setJugadores(List<Jugador> jugadores) {
         Jugadores = jugadores;
+    }
+
+    public String getNameEquipo() {
+        return nameEquipo;
+    }
+
+    public void setNameEquipo(String nameEquipo) {
+        this.nameEquipo = nameEquipo;
     }
 
     public void addJugador(Jugador newPlayer){

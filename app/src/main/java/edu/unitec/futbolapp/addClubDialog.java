@@ -72,7 +72,11 @@ public class addClubDialog extends DialogFragment {
                         nameClub.requestFocus();
                     else{
                         close = true;
-                        CLUBS.add(new Club(1,nameClub.getText().toString()));
+                        Club tmp = new Club(-1,nameClub.getText().toString());
+                        MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
+                        db.addClub(tmp);
+                        db.close();
+                        CLUBS.add(tmp);
                         Adapter.notifyDataSetChanged();
 
                     }
