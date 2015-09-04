@@ -1,10 +1,13 @@
 package edu.unitec.futbolapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class ConfiguracionActivity extends Activity {
 
@@ -12,6 +15,24 @@ public class ConfiguracionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
+
+        Button btnClub =(Button)findViewById(R.id.btnClub);
+        btnClub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(v.getContext(),ClubActivity.class);
+                startActivity(startIntent);
+            }
+        });
+
+        Button btnEsquema = (Button)findViewById(R.id.btnEsquema);
+        btnEsquema.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(v.getContext(),EsquemaActivity.class);
+                startActivity(startIntent);
+            }
+        });
     }
 
     @Override

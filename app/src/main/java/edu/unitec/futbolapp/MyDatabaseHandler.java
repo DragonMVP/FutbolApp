@@ -32,6 +32,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_CAMBIOPARTIDO = "cambioPartido";
     private static final String TABLE_FALTASPARTIDO = "faltasPartido";
     private static final String TABLE_PASEPARTIDO = "pasePartido";
+    private static final String TABLE_ESQUEMA = "esquema";
 
     // Comunes
 
@@ -81,6 +82,12 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
     //POSICON
     private static final String ID_POSICION = "idPosicion";
     private  static final String NOMBRE_POSICION = "nombrePosicion";
+
+    //ESQUEMA
+    private static final String ID_ESQUEMA= "idEsquema";
+    private static final String NUM_OFENSIVA= "numeroOfensiva";
+    private static final String NUM_MEDIOCAMPO = "numeroMedioCampo";
+    private static final String NUM_DEFENSIVA = "numeroDefensiva";
 
     // Crear Tablas
     private static final String CREATE_TABLE_CLUB = "CREATE TABLE "
@@ -135,6 +142,10 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
             + TABLE_CAMBIOPARTIDO + "(" + ID_PARTIDO + " INTEGER ," + ID_JUGADOR_SALE
             + " INTEGER," + ID_JUGADOR_ENTRA + " INTEGER, PRIMARY KEY ("+ID_PARTIDO+","+ID_JUGADOR_SALE+"))";
 
+    private static final String CREATE_TABLE_ESQUEMA = "CREATE TABLE "
+            + TABLE_ESQUEMA +"("+ID_ESQUEMA+" INTEGER PRIMARY KEY AUTOINCREMENT,"+NUM_OFENSIVA
+            +" INTEGER,"+NUM_MEDIOCAMPO+" INTEGER,"+NUM_DEFENSIVA+" INTEGER)";
+
     public MyDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -156,6 +167,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_FALTA);
         db.execSQL(CREATE_TABLE_PASE);
         db.execSQL(CREATE_TABLE_CAMBIOPARTIDO);
+        db.execSQL(CREATE_TABLE_ESQUEMA);
     }
 
     @Override
@@ -174,6 +186,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FALTA);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PASE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAMBIOPARTIDO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ESQUEMA);
 
         // create new tables
         onCreate(db);
@@ -296,6 +309,36 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+
+    public List<Esquema> getAllEsquema(){
+        List<Esquema> retVal = new ArrayList();
+
+        String Query = "SELECT "+ID_ESQUEMA+","+NUM_OFENSIVA+","+NUM_MEDIOCAMPO+","+NUM_DEFENSIVA+" FROM "+TABLE_ESQUEMA;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(Query, null);
+
+        if (cursor.moveToFirst()){
+            retVal.add(new Esquema(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getInt(3)));
+            while (cursor.moveToNext()){
+                retVal.add(new Esquema(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getInt(3)));
+            }
+        }
+        cursor.close();
+        db.close();
+
+        return retVal;
+    }
+
+    public void addEsquema(Esquema newEsquema){
+        ContentValues values = new ContentValues();
+        values.put(NUM_OFENSIVA,newEsquema.getDelanteros());
+        values.put(NUM_DEFENSIVA,newEsquema.getDefensas());
+        values.put(NUM_MEDIOCAMPO,newEsquema.getMedios());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(TABLE_ESQUEMA, null, values);
+        db.close();
+    }
 
 
 }

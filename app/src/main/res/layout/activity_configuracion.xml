@@ -9,8 +9,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Club"
-        android:id="@+id/btnclub"
+        android:text="Club, Equipo, Jugadores"
+        android:id="@+id/btnClub"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -20,46 +20,25 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Equipo"
-        android:id="@+id/btnequipo"
-        android:layout_below="@+id/btnclub"
+        android:text="Esquemas"
+        android:id="@+id/btnEsquema"
+        android:layout_marginTop="57dp"
+        android:layout_below="@+id/btnClub"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="59dp"
-        android:layout_alignRight="@+id/btnclub"
-        android:layout_alignEnd="@+id/btnclub" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jugador"
-        android:id="@+id/btnjugador"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:text="Acciones"
+        android:id="@+id/btnAccion"
+        android:layout_marginTop="52dp"
+        android:layout_below="@+id/btnEsquema"
+        android:layout_alignRight="@+id/btnEsquema"
+        android:layout_alignEnd="@+id/btnEsquema"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Esquema"
-        android:id="@+id/btnesquema"
-        android:layout_below="@+id/btnjugador"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="57dp"
-        android:layout_alignRight="@+id/btnjugador"
-        android:layout_alignEnd="@+id/btnjugador" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Criterio"
-        android:id="@+id/btncriterio"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/btnesquema"
-        android:layout_alignEnd="@+id/btnesquema" />
 </RelativeLayout>

@@ -37,6 +37,10 @@
             android:label ="Partido Cancha"
             android:screenOrientation="landscape"></activity>
 
+        <activity android:name=".EsquemaActivity"
+            android:label="Esquemas"
+            android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>
