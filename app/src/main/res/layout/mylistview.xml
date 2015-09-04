@@ -5,22 +5,22 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="FILLERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"
         android:id="@+id/maintxt"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="40dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="FILERRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"
         android:id="@+id/optionaltxt"
         android:layout_below="@+id/maintxt"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="59dp"
         android:layout_marginStart="59dp"
-        android:textSize="30dp" />
+        android:textSize="15dp" />
 </RelativeLayout>

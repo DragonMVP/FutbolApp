@@ -33,6 +33,10 @@
         <activity android:name=".ClubActivity"
             android:label="Clubs"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".PartidoCanchaActivity"
+            android:label ="Partido Cancha"
+            android:screenOrientation="landscape"></activity>
+
     </application>
 
 </manifest>

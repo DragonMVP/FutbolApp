@@ -68,7 +68,7 @@ public class GridViewAdapter extends BaseAdapter {
         final ImageButton imgButton = (ImageButton) grid.findViewById(R.id.imgButton);
         imgButton.setImageResource(idFotos[position]);
 
-        imgButton.setOnClickListener(new View.OnClickListener() {
+       /* imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent startIntent = null;
@@ -80,6 +80,7 @@ public class GridViewAdapter extends BaseAdapter {
 
             }
         });
+        */
 
         TextView txtDesc = (TextView)grid.findViewById(R.id.txtDesc);
         txtDesc.setText(textButton[position]);
@@ -89,17 +90,21 @@ public class GridViewAdapter extends BaseAdapter {
             imgButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent;
                     switch(Integer.valueOf(imgButton.getTag().toString())){
                         case 0:
                             break;
                         case 1:
-                            Intent intent= new Intent(Contexto, ConfiguracionActivity.class);
+                            intent= new Intent(Contexto, ClubActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            Contexto.startActivity(intent);
+                            Actividad.startActivity(intent);
                             break;
                         case 2:
                             break;
                         case 3:
+                            intent = new Intent(Contexto,PartidoCanchaActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Actividad.startActivity(intent);
                             break;
                         default:
                             break;

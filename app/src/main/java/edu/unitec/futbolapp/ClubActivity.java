@@ -18,15 +18,16 @@ import java.util.List;
  * Created by nivx1 on 09/02/2015.
  */
 public class ClubActivity extends Activity {
-
+    List<Club> CLUBS;
+    ListView lista;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.club_layout);
 
-        List<Club> CLUBS = new ArrayList();
+        CLUBS = new ArrayList();
 
-        ListView lista = (ListView)findViewById(R.id.listClub);
+        lista = (ListView)findViewById(R.id.listClub);
         lista.setAdapter(new MyListViewAdapter(CLUBS,getBaseContext(),this));
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -53,7 +54,8 @@ public class ClubActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.addClub){
-            Toast.makeText(this.getBaseContext(),"TEST2",Toast.LENGTH_SHORT);
+            addClubDialog addClub = new addClubDialog(CLUBS,(MyListViewAdapter)lista.getAdapter());
+            addClub.show(getFragmentManager(),"addClubDialog");
             return true;
         }else
             return super.onOptionsItemSelected(item);
