@@ -16,31 +16,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-       <activity
-           android:name=".MenuPrincipalActivity"
-           android:label="MenuPrincpal"
-           android:screenOrientation="portrait"
-           ></activity>
-
+        <activity
+            android:name=".MenuPrincipalActivity"
+            android:label="MenuPrincpal"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ConfiguracionActivity"
             android:label="Configuracion"
-            android:screenOrientation="portrait"
-            ></activity>
-
-        <activity android:name=".ClubActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ClubActivity"
             android:label="Clubs"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".PartidoCanchaActivity"
-            android:label ="Partido Cancha"
-            android:screenOrientation="landscape"></activity>
-
-        <activity android:name=".EsquemaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PartidoCanchaActivity"
+            android:label="Partido Cancha"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".EsquemaActivity"
             android:label="Esquemas"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EquipoActivity"
+            android:label="@string/title_activity_equipo" >
+        </activity>
+        <activity
+            android:name=".JugadorActivity"
+            android:label="@string/title_activity_jugador" >
+        </activity>
     </application>
 
 </manifest>

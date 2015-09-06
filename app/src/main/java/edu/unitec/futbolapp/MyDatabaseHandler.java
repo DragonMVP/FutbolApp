@@ -266,7 +266,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
 
     public PosicionCampo getPosicion(int idPosicion){
         PosicionCampo retVal = new PosicionCampo(idPosicion);
-        String Query = "SELECT "+ID_POSICION+","+NOMBRE_POSICION+" FROM "+TABLE_POSICION+"WHERE "+ID_POSICION+"="+idPosicion;
+        String Query = "SELECT "+ID_POSICION+","+NOMBRE_POSICION+" FROM "+TABLE_POSICION+" WHERE "+ID_POSICION+"="+idPosicion;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(Query,null);
 
@@ -309,6 +309,17 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void addJugadorNoPosicion(Jugador Jugador){
+        ContentValues values = new ContentValues();
+        values.put(ID_EQUIPO,Jugador.getIdEquipo());
+        values.put(NUMERO_JUGADOR,Jugador.getNumeroJugador());
+        values.put(NOMBRE_JUGADOR,Jugador.getNombreJugador());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(TABLE_JUGADOR, null, values);
+        db.close();
+    }
+
 
     public List<Esquema> getAllEsquema(){
         List<Esquema> retVal = new ArrayList();
@@ -338,6 +349,38 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_ESQUEMA, null, values);
         db.close();
+    }
+
+    public int getClubID(String clName){
+        int retVal = 0;
+
+        String Query = "SELECT "+ID_CLUB+" FROM "+TABLE_CLUB+" WHERE "+NOMBRE_CLUB+" = "+"\""+clName+"\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(Query, null);
+
+        if (cursor.moveToFirst()){
+            retVal = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+
+        return retVal;
+    }
+
+    public int getEquipoID(String eqName){
+        int retVal = 0;
+
+        String Query = "SELECT "+ID_EQUIPO+" FROM "+TABLE_EQUIPO+" WHERE "+NOMBRE_EQUIPO+" = "+"\""+eqName+"\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(Query, null);
+
+        if (cursor.moveToFirst()){
+            retVal = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+
+        return retVal;
     }
 
 

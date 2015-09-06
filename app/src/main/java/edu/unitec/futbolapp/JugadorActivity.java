@@ -1,48 +1,41 @@
 package edu.unitec.futbolapp;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by nivx1 on 09/02/2015.
+ * Created by daemonaeon on 09/05/2015.
  */
-public class ClubActivity extends Activity {
-    List<Club> CLUBS;
+public class JugadorActivity extends Activity {
+
+    List<Jugador> Jugadores;
     ListView lista;
+    int IDEQUIPO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.club_layout);
+        setContentView(R.layout.activity_jugador);
         MyDatabaseHandler db = new MyDatabaseHandler(getBaseContext());
-        CLUBS = db.getAllClubs();
+        IDEQUIPO = getIntent().getIntExtra("EQUIPO", 0);
+        Jugadores = db.getAllPlayers(IDEQUIPO);
         db.close();
 
-        lista = (ListView)findViewById(R.id.listClub);
-        lista.setAdapter(new MyListViewAdapter(CLUBS,getBaseContext(),this));
+        lista = (ListView)findViewById(R.id.listJugador);
+        lista.setAdapter(new MyListViewAdapter(Jugadores, getBaseContext(), this));
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println(lista.getItemAtPosition(position).toString());
-                Intent intent = new Intent(view.getContext(), EquipoActivity.class);
-                //intent.putExtra("CLUB", lista.getItemAtPosition(position).toString());
-                MyDatabaseHandler db = new MyDatabaseHandler(view.getContext());
-                int CLUBID = db.getClubID(lista.getItemAtPosition(position).toString());
-                db.close();
-                intent.putExtra("CLUB", CLUBID);
-                System.out.println("--------------------------"+id);
-                startActivity(intent);
                 Toast.makeText(view.getContext(), "TEST", Toast.LENGTH_SHORT);
             }
         });
@@ -63,8 +56,8 @@ public class ClubActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.addClub){
-            addClubDialog addClub = new addClubDialog(CLUBS,(MyListViewAdapter)lista.getAdapter());
-            addClub.show(getFragmentManager(),"addClubDialog");
+            addJugadorDialog addJugador = new addJugadorDialog(Jugadores,(MyListViewAdapter)lista.getAdapter(),IDEQUIPO);
+            addJugador.show(getFragmentManager(),"addJugadorDialog");
             return true;
         }else {
             System.out.println("-----------------------------------------"+id);
