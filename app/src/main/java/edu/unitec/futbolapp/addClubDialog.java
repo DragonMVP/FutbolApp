@@ -75,8 +75,9 @@ public class addClubDialog extends DialogFragment {
                         Club tmp = new Club(-1,nameClub.getText().toString());
                         MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
                         db.addClub(tmp);
+
+                        (Adapter).setNewLista(db.getAllClubs());
                         db.close();
-                        CLUBS.add(tmp);
                         Adapter.notifyDataSetChanged();
 
                     }

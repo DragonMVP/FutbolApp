@@ -34,16 +34,12 @@ public class ClubActivity extends Activity {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(lista.getItemAtPosition(position).toString());
                 Intent intent = new Intent(view.getContext(), EquipoActivity.class);
                 //intent.putExtra("CLUB", lista.getItemAtPosition(position).toString());
-                MyDatabaseHandler db = new MyDatabaseHandler(view.getContext());
-                int CLUBID = db.getClubID(lista.getItemAtPosition(position).toString());
-                db.close();
+
+                int CLUBID = CLUBS.get(position).getIdClub();
                 intent.putExtra("CLUB", CLUBID);
-                System.out.println("--------------------------"+id);
                 startActivity(intent);
-                Toast.makeText(view.getContext(), "TEST", Toast.LENGTH_SHORT);
             }
         });
 
@@ -67,7 +63,6 @@ public class ClubActivity extends Activity {
             addClub.show(getFragmentManager(),"addClubDialog");
             return true;
         }else {
-            System.out.println("-----------------------------------------"+id);
             return super.onOptionsItemSelected(item);
         }
     }

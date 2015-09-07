@@ -37,6 +37,7 @@ public class PartidoConfigActivity extends Activity {
 
     List<Equipo> tmpEquipo = new ArrayList<>();
     List<Jugador> tmpJugador= new ArrayList<>();
+    MyDatabaseHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +48,9 @@ public class PartidoConfigActivity extends Activity {
         spClubPartido = (Spinner)findViewById(R.id.spClub_Partido);
         spEquipoPartido = (Spinner)findViewById(R.id.spEquipo_Partido);
 
-        tmpEquipo.add(new Equipo(1,"Equipo Test",1));
+        //tmpEquipo.add(new Equipo(1,"Equipo Test",1));
 
-
+/*
         for (int i=1;i<23;i++){
             PosicionCampo tmp;
             if (i <= 5)
@@ -63,8 +64,9 @@ public class PartidoConfigActivity extends Activity {
 
             tmpJugador.add(new Jugador(i,1,tmp,"Jugador "+i,i));
         }
+        */
 
-        MyDatabaseHandler db = new MyDatabaseHandler(getBaseContext());
+        db = new MyDatabaseHandler(getBaseContext());
 
 
         ArrayAdapter<Esquema> EsquemaAdapter = new ArrayAdapter<Esquema>(this, android.R.layout.simple_spinner_item, db.getAllEsquema());
@@ -80,7 +82,7 @@ public class PartidoConfigActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //db.getAllEquipos(SelectedClub)
                 SELECTED_CLUB = (Club) parent.getItemAtPosition(position);
-                ArrayAdapter<Equipo> dataAdapter = new ArrayAdapter<Equipo>(ME, android.R.layout.simple_spinner_item, tmpEquipo);
+                ArrayAdapter<Equipo> dataAdapter = new ArrayAdapter<Equipo>(ME, android.R.layout.simple_spinner_item, db.getAllEquipos(SELECTED_CLUB));
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spEquipoPartido.setAdapter(dataAdapter);
             }
@@ -100,7 +102,7 @@ public class PartidoConfigActivity extends Activity {
                     SELECTED_TEAM = null;
                 }else{
                     //db.getAllJugadores(SELECTED_TEAM);
-                    ListViewAdapter_JugadoresPartidoConfig myAdapter = new ListViewAdapter_JugadoresPartidoConfig(tmpJugador,getBaseContext(),ME,SELECTED_ESQUEMA);
+                    ListViewAdapter_JugadoresPartidoConfig myAdapter = new ListViewAdapter_JugadoresPartidoConfig(db.getAllPlayers(SELECTED_TEAM.getIdEquipo()),getBaseContext(),ME,SELECTED_ESQUEMA);
                     listJugadores.setAdapter(myAdapter);
                 }
             }

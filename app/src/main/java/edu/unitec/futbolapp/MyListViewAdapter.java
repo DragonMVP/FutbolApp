@@ -2,12 +2,15 @@ package edu.unitec.futbolapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +58,15 @@ public class MyListViewAdapter extends BaseAdapter {
             view = (View)convertView;
         }
 
+        ImageView imgV = (ImageView)view.findViewById(R.id.item_image);
+
+
+        if (LISTA.get(position) instanceof  Jugador){
+
+            Bitmap thumbnail = (BitmapFactory.decodeFile(((Jugador)LISTA.get(position)).getFOTO_LOCATION()));
+            imgV.setImageBitmap(thumbnail);
+        }
+
         String[] txtList = LISTA.get(position).toString().split(",");
         TextView maintxt = (TextView)view.findViewById(R.id.maintxt);
         TextView optionaltxt = (TextView)view.findViewById(R.id.optionaltxt);
@@ -69,5 +81,10 @@ public class MyListViewAdapter extends BaseAdapter {
         }
 
         return view;
+    }
+
+    public void setNewLista(List newL){
+        this.LISTA = newL;
+        notifyDataSetChanged();
     }
 }

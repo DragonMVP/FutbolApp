@@ -111,8 +111,9 @@ public class addEsquemaDialog extends DialogFragment {
                         Esquema newEsquema = new Esquema(Of,Me,Def);
                         MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
                         db.addEsquema(newEsquema);
+
+                        (Adapter).setNewLista(db.getAllEsquema());
                         db.close();
-                        ESQUEMAS.add(newEsquema);
                         Adapter.notifyDataSetChanged();
 
                         close = true;

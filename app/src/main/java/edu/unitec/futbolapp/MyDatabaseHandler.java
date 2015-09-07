@@ -60,6 +60,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
     private static final String ID_JUGADOR = "idJugador";
     private  static final String NOMBRE_JUGADOR = "nombreJugador";
     private static final String NUMERO_JUGADOR = "numeroJugador";
+    private static final String FOTO_JUGADOR = "fotoJugadorLocation";
 
     // Partido
     private static final String ID_PARTIDO = "idPartido";
@@ -114,7 +115,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_JUGADOR = "CREATE TABLE "
             + TABLE_JUGADOR + "(" + ID_JUGADOR + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + NOMBRE_JUGADOR
-            + " TEXT," + ID_EQUIPO + " INTEGER," + ID_POSICION + " INTEGER,"+NUMERO_JUGADOR+" INTEGER)";
+            + " TEXT," + ID_EQUIPO + " INTEGER," + ID_POSICION + " INTEGER,"+NUMERO_JUGADOR+" INTEGER, "+FOTO_JUGADOR+" TEXT)";
 
     private static final String CREATE_TABLE_PARTIDO = "CREATE TABLE "
             + TABLE_PARTIDO + "(" + ID_PARTIDO + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + FECHA_PARTIDO
@@ -194,6 +195,10 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         String INITIAL_TIPO = "INSERT INTO TipoPase('nombreTipo') VALUES('Corto'); " +
                 "INSERT INTO TipoPase('nombreTipo') VALUES('Medio'); " +
                 "INSERT INTO TipoPase('nombreTipo') VALUES('Largo');";
+        String INITIAL_POSICION = "INSERT INTO Posicion('nombrePosicion') VALUES('Portero');" +
+                "INSERT INTO Posicion('nombrePosicion') VALUES('Defensa');" +
+                "INSERT INTO Posicion('nombrePosicion') VALUES('Medio');" +
+                "INSERT INTO Posicion('nombrePosicion') VALUES('Delantero')";
 
 
         String[] split = INITIAL_ACCION.split(";");
@@ -208,6 +213,10 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
             db.execSQL(tmp);
         }
         for(String tmp : INITIAL_TIPO.split(";")){
+            db.execSQL(tmp);
+        }
+
+        for (String tmp:INITIAL_POSICION.split(";")){
             db.execSQL(tmp);
         }
     }
@@ -314,14 +323,14 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
 
     public List<Jugador> getAllPlayers(int EQUIPO){
         List<Jugador> retVal = new ArrayList();
-        String Query = "SELECT "+ID_JUGADOR+","+ID_POSICION+", "+NOMBRE_JUGADOR+","+NUMERO_JUGADOR+" FROM " + TABLE_JUGADOR+" WHERE "+ID_JUGADOR+"="+EQUIPO;
+        String Query = "SELECT "+ID_JUGADOR+","+ID_POSICION+", "+NOMBRE_JUGADOR+","+NUMERO_JUGADOR+","+FOTO_JUGADOR+" FROM " + TABLE_JUGADOR+" WHERE "+ID_EQUIPO+"="+EQUIPO;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(Query,null);
 
         if (cursor.moveToFirst()){
-            retVal.add(new Jugador(cursor.getInt(0),EQUIPO,getPosicion(cursor.getInt(1)),cursor.getString(2),cursor.getInt(3)));
+            retVal.add(new Jugador(cursor.getInt(0),EQUIPO,getPosicion(cursor.getInt(1)),cursor.getString(2),cursor.getInt(3),cursor.getString(4)));
             while(cursor.moveToNext()){
-                retVal.add(new Jugador(cursor.getInt(0),EQUIPO,getPosicion(cursor.getInt(1)),cursor.getString(2),cursor.getInt(3)));
+                retVal.add(new Jugador(cursor.getInt(0),EQUIPO,getPosicion(cursor.getInt(1)),cursor.getString(2),cursor.getInt(3),cursor.getString(4)));
             }
         }
         cursor.close();
@@ -354,12 +363,13 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
 
     public void addEquipo(Equipo newEquipo){
         ContentValues values = new ContentValues();
-        values.put(ID_CLUB,newEquipo.getIdClub());
+        values.put(ID_CLUB, newEquipo.getIdClub());
         values.put(NOMBRE_EQUIPO,newEquipo.getNameEquipo());
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_EQUIPO, null, values);
         db.close();
+
     }
 
     public void addJugador(Jugador Jugador){
@@ -368,6 +378,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         values.put(ID_POSICION,Jugador.getPosicion().getIdPosicion());
         values.put(NUMERO_JUGADOR,Jugador.getNumeroJugador());
         values.put(NOMBRE_JUGADOR,Jugador.getNombreJugador());
+        values.put(FOTO_JUGADOR,Jugador.getFOTO_LOCATION());
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_JUGADOR, null, values);
@@ -584,5 +595,6 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         }
         db.close();
     }
+
 
 }

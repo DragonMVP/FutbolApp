@@ -32,13 +32,7 @@ public class JugadorActivity extends Activity {
 
         lista = (ListView)findViewById(R.id.listJugador);
         lista.setAdapter(new MyListViewAdapter(Jugadores, getBaseContext(), this));
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(lista.getItemAtPosition(position).toString());
-                Toast.makeText(view.getContext(), "TEST", Toast.LENGTH_SHORT);
-            }
-        });
+
 
     }
 
@@ -56,7 +50,7 @@ public class JugadorActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.addClub){
-            addJugadorDialog addJugador = new addJugadorDialog(Jugadores,(MyListViewAdapter)lista.getAdapter(),IDEQUIPO);
+            addJugadorDialog addJugador = new addJugadorDialog(Jugadores,(MyListViewAdapter)lista.getAdapter(),IDEQUIPO,this);
             addJugador.show(getFragmentManager(),"addJugadorDialog");
             return true;
         }else {

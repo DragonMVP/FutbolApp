@@ -35,5 +35,41 @@
         android:inputType="number"
         android:layout_weight="0.03" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posicion"
+        android:id="@+id/textView13"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spPosicion"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar Foto"
+        android:id="@+id/btnSeleccionar"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tomar Foto"
+        android:id="@+id/btnTomar"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgPath"
+        android:layout_gravity="center_horizontal"
+        android:inputType="number"
+        android:layout_weight="0.03" />
+
 
 </LinearLayout>

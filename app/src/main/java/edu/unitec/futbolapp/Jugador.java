@@ -12,9 +12,17 @@ public class Jugador implements Serializable{
     private PosicionCampo posicion;
     private String nombreJugador;
     private int numeroJugador;
+    private String FOTO_LOCATION;
     //daemon: artificial para el bug de combobox
     private boolean selected;
 
+    public String getFOTO_LOCATION() {
+        return FOTO_LOCATION;
+    }
+
+    public void setFOTO_LOCATION(String FOTO_LOCATION) {
+        this.FOTO_LOCATION = FOTO_LOCATION;
+    }
 
     public Jugador(int idJugador, int idEquipo, PosicionCampo posicion, String nombreJugador, int numeroJugador) {
         this.idJugador = idJugador;
@@ -22,6 +30,32 @@ public class Jugador implements Serializable{
         this.posicion = posicion;
         this.nombreJugador = nombreJugador;
         this.numeroJugador = numeroJugador;
+    }
+
+    public Jugador(int idJugador, int idEquipo, int posicion, String nombreJugador, int numeroJugador) {
+        this.idJugador = idJugador;
+        this.idEquipo = idEquipo;
+        this.posicion = new PosicionCampo(posicion + 1);
+        this.nombreJugador = nombreJugador;
+        this.numeroJugador = numeroJugador;
+    }
+
+    public Jugador(int idJugador, int idEquipo, PosicionCampo posicion, String nombreJugador, int numeroJugador, String FOTO_LOCATION) {
+        this.idJugador = idJugador;
+        this.idEquipo = idEquipo;
+        this.posicion = posicion;
+        this.nombreJugador = nombreJugador;
+        this.numeroJugador = numeroJugador;
+        this.FOTO_LOCATION = FOTO_LOCATION;
+    }
+
+    public Jugador(int idJugador, int idEquipo, int posicion, String nombreJugador, int numeroJugador, String FOTO_LOCATION) {
+        this.idJugador = idJugador;
+        this.idEquipo = idEquipo;
+        this.posicion = new PosicionCampo(posicion + 1);
+        this.nombreJugador = nombreJugador;
+        this.numeroJugador = numeroJugador;
+        this.FOTO_LOCATION = FOTO_LOCATION;
     }
 
     public Jugador(int idJugador, int idEquipo) {

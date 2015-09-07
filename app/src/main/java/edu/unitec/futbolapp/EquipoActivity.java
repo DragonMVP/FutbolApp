@@ -39,13 +39,10 @@ public class EquipoActivity extends Activity {
                 System.out.println(lista.getItemAtPosition(position).toString());
                 Intent intent = new Intent(view.getContext(), JugadorActivity.class);
                 //intent.putExtra("CLUB", lista.getItemAtPosition(position).toString());
-                MyDatabaseHandler db = new MyDatabaseHandler(view.getContext());
-                int EQUIPOID = db.getEquipoID(lista.getItemAtPosition(position).toString());
-                db.close();
+
+                int EQUIPOID = Equipos.get(position).getIdEquipo();
                 intent.putExtra("EQUIPO", EQUIPOID);
-                System.out.println("--------------------------"+id);
                 startActivity(intent);
-                Toast.makeText(view.getContext(), "TEST", Toast.LENGTH_SHORT);
             }
         });
 
