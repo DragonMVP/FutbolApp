@@ -64,7 +64,7 @@ public class PartidoCanchaActivity extends Activity {
         btnDefensas = new ImageButton[ESQUEMA.getDefensas()];
         btnMedios = new ImageButton[ESQUEMA.getMedios()];
         btnOfensivos= new ImageButton[ESQUEMA.getDelanteros()];
-        
+
         int Def=0,Med =0,Of = 0;
 
 

@@ -2,45 +2,47 @@ package edu.unitec.futbolapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by nivx1 on 09/02/2015.
+ * Created by daemonaeon on 09/05/2015.
  */
-public class ClubActivity extends Activity {
-    List<Club> CLUBS;
+public class EquipoActivity extends Activity {
+
+    List<Equipo> Equipos;
     ListView lista;
+    int IDCLUB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.club_layout);
+        setContentView(R.layout.activity_equipo);
         MyDatabaseHandler db = new MyDatabaseHandler(getBaseContext());
-        CLUBS = db.getAllClubs();
+        IDCLUB = getIntent().getIntExtra("CLUB", 0);
+        Equipos = db.getAllEquipos(IDCLUB);
         db.close();
 
-        lista = (ListView)findViewById(R.id.listClub);
-        lista.setAdapter(new MyListViewAdapter(CLUBS,getBaseContext(),this));
+        lista = (ListView)findViewById(R.id.listEquipo);
+        lista.setAdapter(new MyListViewAdapter(Equipos, getBaseContext(), this));
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println(lista.getItemAtPosition(position).toString());
-                Intent intent = new Intent(view.getContext(), EquipoActivity.class);
+                Intent intent = new Intent(view.getContext(), JugadorActivity.class);
                 //intent.putExtra("CLUB", lista.getItemAtPosition(position).toString());
                 MyDatabaseHandler db = new MyDatabaseHandler(view.getContext());
-                int CLUBID = db.getClubID(lista.getItemAtPosition(position).toString());
+                int EQUIPOID = db.getEquipoID(lista.getItemAtPosition(position).toString());
                 db.close();
-                intent.putExtra("CLUB", CLUBID);
+                intent.putExtra("EQUIPO", EQUIPOID);
                 System.out.println("--------------------------"+id);
                 startActivity(intent);
                 Toast.makeText(view.getContext(), "TEST", Toast.LENGTH_SHORT);
@@ -63,8 +65,8 @@ public class ClubActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.addClub){
-            addClubDialog addClub = new addClubDialog(CLUBS,(MyListViewAdapter)lista.getAdapter());
-            addClub.show(getFragmentManager(),"addClubDialog");
+            addEquipoDialog addEquipo = new addEquipoDialog(Equipos,(MyListViewAdapter)lista.getAdapter(),IDCLUB);
+            addEquipo.show(getFragmentManager(),"addEquipoDialog");
             return true;
         }else {
             System.out.println("-----------------------------------------"+id);
