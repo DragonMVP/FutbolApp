@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -17,15 +18,16 @@ import java.util.List;
 /**
  * Created by nivx1 on 09/02/2015.
  */
-public class ListViewAdapter_JugadoresPartidoConfig extends BaseAdapter {
-    private List LISTA;
+public class ListViewAdapter_JugadoresPartidoConfig extends ArrayAdapter<Jugador> {
+    private List<Jugador> LISTA;
     private Context Contexto;
     private Activity Actividad;
     private Esquema SELECTED_ESQUEMA;
 
     private  List<Jugador> INICIALES;
 
-    public ListViewAdapter_JugadoresPartidoConfig(List LISTA, Context contexto, Activity actividad,Esquema ESQUEMA) {
+    public ListViewAdapter_JugadoresPartidoConfig(List<Jugador> LISTA, Context contexto, Activity actividad,Esquema ESQUEMA) {
+        super(contexto, R.layout.listview_partidoconfig_players, LISTA);
         this.LISTA = LISTA;
         Contexto = contexto;
         Actividad = actividad;
@@ -34,7 +36,11 @@ public class ListViewAdapter_JugadoresPartidoConfig extends BaseAdapter {
         INICIALES =  new ArrayList();
     }
 
-
+    static class ViewHolder {//daemon: quiero comer galletas
+        protected CheckBox checkbox;
+        protected TextView name;
+        protected TextView posicion;
+    }
 
     @Override
     public int getCount() {
@@ -42,8 +48,8 @@ public class ListViewAdapter_JugadoresPartidoConfig extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-       return  LISTA.get(position);
+    public Jugador getItem(int position) {
+       return  (Jugador)LISTA.get(position);
     }
 
     @Override
@@ -54,35 +60,58 @@ public class ListViewAdapter_JugadoresPartidoConfig extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view;
-
+        ViewHolder vh = null;
         if(convertView==null){
-            view = new View(Contexto);
+            //view = new View(Contexto);
             LayoutInflater inflater=Actividad.getLayoutInflater();
-            view=inflater.inflate(R.layout.listview_partidoconfig_players, parent, false);
+            convertView=inflater.inflate(R.layout.listview_partidoconfig_players, parent, false);
+            vh = new ViewHolder();
+            vh.checkbox = (CheckBox)convertView.findViewById(R.id.cbEntra);
+            vh.name = (TextView)convertView.findViewById(R.id.lblNombreJugador);
+            vh.posicion = (TextView)convertView.findViewById(R.id.lblPosicion);
+
+            /*TextView lblName = (TextView)convertView.findViewById(R.id.lblNombreJugador);
+            TextView lblPosicion = (TextView) convertView.findViewById(R.id.lblPosicion);
+            CheckBox cbEntra = (CheckBox) convertView.findViewById(R.id.cbEntra);
+
+            lblName.setText(((Jugador) LISTA.get(position)).getNombreJugador());
+            lblPosicion.setText(((Jugador) LISTA.get(position)).getPosicion().getDescripcionPosicion());*/
+
+            vh.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    int getPosition = (Integer) buttonView.getTag();
+                    LISTA.get(getPosition).setSelected(buttonView.isChecked());
+
+                    if (isChecked) {
+                        INICIALES.add((Jugador) LISTA.get(position));
+                        //System.out.println("-----------------"+LISTA.get(position).getNombreJugador());
+                    } else {
+                        if (INICIALES.contains((Jugador) LISTA.get(position))) {
+                            INICIALES.remove((Jugador) LISTA.get(position));
+                            //System.out.println("++++++++++++++++++++" + LISTA.get(position).getNombreJugador());
+                        }
+                    }
+                }
+            });
+
+
+            convertView.setTag(vh);
+            convertView.setTag(R.id.cbEntra, vh.checkbox);
+            convertView.setTag(R.id.lblNombreJugador, vh.name);
+            convertView.setTag(R.id.lblPosicion, vh.posicion);
+
         }else{
-            view = (View)convertView;
+            //convertView = (View)convertView;
+            vh = (ViewHolder)convertView.getTag();
         }
 
-        TextView lblName = (TextView)view.findViewById(R.id.lblNombreJugador);
-        TextView lblPosicion = (TextView)view.findViewById(R.id.lblPosicion);
-        CheckBox cbEntra = (CheckBox)view.findViewById(R.id.cbEntra);
+        vh.checkbox.setTag(position); // This line is important
+        vh.name.setText(LISTA.get(position).getNombreJugador());
+        vh.posicion.setText(LISTA.get(position).getPosicion().getDescripcionPosicion());
+        vh.checkbox.setChecked(LISTA.get(position).isSelected());
 
-        lblName.setText(((Jugador)LISTA.get(position)).getNombreJugador());
-        lblPosicion.setText(((Jugador)LISTA.get(position)).getPosicion().getDescripcionPosicion());
-
-        cbEntra.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    INICIALES.add((Jugador) LISTA.get(position));
-                } else {
-                    if (INICIALES.contains((Jugador) LISTA.get(position)))
-                        INICIALES.remove((Jugador) LISTA.get(position));
-                }
-            }
-        });
-
-        return view;
+        return convertView;
     }
 
     public List<Jugador> getIniciales(){

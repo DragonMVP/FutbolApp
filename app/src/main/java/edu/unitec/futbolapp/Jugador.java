@@ -12,6 +12,9 @@ public class Jugador implements Serializable{
     private PosicionCampo posicion;
     private String nombreJugador;
     private int numeroJugador;
+    //daemon: artificial para el bug de combobox
+    private boolean selected;
+
 
     public Jugador(int idJugador, int idEquipo, PosicionCampo posicion, String nombreJugador, int numeroJugador) {
         this.idJugador = idJugador;
@@ -72,6 +75,15 @@ public class Jugador implements Serializable{
     public void setNumeroJugador(int numeroJugador) {
         this.numeroJugador = numeroJugador;
     }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
 
     @Override
     public String toString() {
