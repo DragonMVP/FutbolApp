@@ -93,6 +93,9 @@ public class GridViewAdapter extends BaseAdapter {
                     Intent intent;
                     switch(Integer.valueOf(imgButton.getTag().toString())){
                         case 0:
+                            intent= new Intent(Contexto, PartidoConfigActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Actividad.startActivity(intent);
                             break;
                         case 1:
                             intent= new Intent(Contexto, ConfiguracionActivity.class);

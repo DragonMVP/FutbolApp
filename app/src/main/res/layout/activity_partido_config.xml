@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Club:"
+        android:id="@+id/textView7"
+        android:textSize="20dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spClub_Partido"
+        android:layout_marginLeft="61dp"
+        android:layout_alignTop="@+id/textView7"
+        android:layout_toRightOf="@+id/textView7"
+        android:layout_toEndOf="@+id/textView7"
+        android:layout_marginStart="61dp"
+        android:spinnerMode="dropdown" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spEquipo_Partido"
+        android:layout_marginTop="57dp"
+        android:layout_below="@+id/spClub_Partido"
+        android:layout_alignLeft="@+id/spClub_Partido"
+        android:layout_alignStart="@+id/spClub_Partido"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Equipo:"
+        android:id="@+id/textView8"
+        android:textSize="20dp"
+        android:layout_alignTop="@+id/spEquipo_Partido"
+        android:layout_alignLeft="@+id/textView7"
+        android:layout_alignStart="@+id/textView7" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listJugadores_Partido"
+        android:layout_below="@+id/textView9"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Nombre Jugador"
+        android:id="@+id/textView9"
+        android:layout_alignTop="@+id/textView10"
+        android:layout_toLeftOf="@+id/spEquipo_Partido"
+        android:layout_toStartOf="@+id/spEquipo_Partido" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Posicion"
+        android:id="@+id/textView10"
+        android:layout_below="@+id/spEsquema"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Entra"
+        android:id="@+id/textView11"
+        android:layout_marginRight="46dp"
+        android:layout_marginEnd="46dp"
+        android:layout_below="@+id/spEsquema"
+        android:layout_alignRight="@+id/spEsquema"
+        android:layout_alignEnd="@+id/spEsquema" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Formacion:"
+        android:id="@+id/textView12"
+        android:textSize="20dp"
+        android:layout_below="@+id/spEquipo_Partido"
+        android:layout_alignLeft="@+id/textView8"
+        android:layout_alignStart="@+id/textView8"
+        android:layout_marginTop="46dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spEsquema"
+        android:spinnerMode="dropdown"
+        android:layout_alignTop="@+id/textView12"
+        android:layout_toRightOf="@+id/textView12"
+        android:layout_toEndOf="@+id/textView12" />
+</RelativeLayout>

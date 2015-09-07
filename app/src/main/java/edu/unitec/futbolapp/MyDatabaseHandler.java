@@ -14,9 +14,16 @@ import java.util.List;
  */
 public class MyDatabaseHandler extends SQLiteOpenHelper {
 
+    public static final Pase DEFAULT_PASE_ACCION = new Pase(1,"Pase");
+    public static final TipoPase DEFAULT_TIPO_PASE = new TipoPase(1,"Corto");
+
     private static final String LOG = "MyDatabaseHandler";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "FutbolApp";
+
+    private static final int DEFAULT_ACCION = 14;
+    private static final int DEFAULT_PASE = 4;
+    private static final int DEFAULT_FALTA = 5;
 
     // Tablas
     private static final String TABLE_ACCION = "accion";
@@ -29,6 +36,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_ALINEACIONPARTIDO = "alineacionPartido";
     private static final String TABLE_FALTA = "falta";
     private static final String TABLE_PASE = "pase";
+    private static final String TABLE_TIPOPASE = "tipoPase";
     private static final String TABLE_CAMBIOPARTIDO = "cambioPartido";
     private static final String TABLE_FALTASPARTIDO = "faltasPartido";
     private static final String TABLE_PASEPARTIDO = "pasePartido";
@@ -62,9 +70,15 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
     // AlineacionPartido
 
     // PasePartido
+    private  static final String ID_PASEPARTIDO = "idPasePartido";
     private static final String ID_JUGADOR_ENVIA = "idJugadorEnvia";
     private static final String ID_JUGADOR_RECIBE = "idJugadorRecibe";
     private static final String ID_PASE = "idPase";
+    private static final String NOMBRE_PASE = "nombrePase";
+
+    //TipoPase
+    private static final String ID_TIPOPASE = "idTipoPase";
+    private static final String NOMBRE_TIPOPASE = "nombreTipo";
 
     // AccionPartido
     private static final String ID_ACCION = "idAccion";
@@ -111,8 +125,11 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
             + " INTEGER," + ID_POSICION + " INTEGER," + TIEMPO_JUEGO + " INTEGER, PRIMARY KEY ("+ID_PARTIDO+","+ID_JUGADOR+"))";
 
     private static final String CREATE_TABLE_PASEPARTIDO = "CREATE TABLE "
-            + TABLE_PASEPARTIDO + "(" + ID_PARTIDO + " INTEGER ," + ID_JUGADOR_ENVIA
-            + " INTEGER," + ID_JUGADOR_RECIBE+ " INTEGER,"+ TIEMPO_JUEGO+ " INTEGER," + ID_PASE + " INTEGER, PRIMARY KEY ("+TIEMPO_JUEGO+"))";
+            + TABLE_PASEPARTIDO + "("+ID_PASEPARTIDO+" INTEGER PRIMARY KEY AUTOINCREMENT," + ID_PARTIDO + " INTEGER ," + ID_JUGADOR_ENVIA
+            + " INTEGER," + ID_JUGADOR_RECIBE+ " INTEGER,"+ TIEMPO_JUEGO+ " INTEGER," + ID_PASE + " INTEGER)";
+
+    private static final String CREATE_TABLE_TIPOPASE = "CREATE TABLE "+
+            TABLE_TIPOPASE+"("+ID_TIPOPASE+" INTEGER PRIMARY KEY AUTOINCREMENT,"+NOMBRE_TIPOPASE+" TEXT)";
 
     private static final String CREATE_TABLE_ACCIONPARTIDO = "CREATE TABLE "
             + TABLE_ACCIONPARTIDO + "(" + ID_PARTIDO + " INTEGER ," + ID_JUGADOR
@@ -135,7 +152,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
             + " TEXT)";
 
     private static final String CREATE_TABLE_PASE = "CREATE TABLE "
-            + TABLE_PASE + "(" + ID_PASE + " INTEGER PRIMARY KEY AUTOINCREMENT," + NOMBRE_FALTA
+            + TABLE_PASE + "(" + ID_PASE + " INTEGER PRIMARY KEY AUTOINCREMENT," + NOMBRE_PASE
             + " TEXT)";
 
     private static final String CREATE_TABLE_CAMBIOPARTIDO = "CREATE TABLE "
@@ -148,6 +165,51 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
 
     public MyDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    private void initDB(SQLiteDatabase db){
+        String INITIAL_ACCION = "INSERT INTO ACCION('nombreAccion') VALUES ('Tiro Acertado'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Tiro Fallido'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('D. Aereo Ganado'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('D. Aereo Fallido'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Centro Acertado'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Centro Fallido'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Uno vrs Uno Ganado'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Uno vrs Uno Fallido'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Balon perdido'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Goles'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Asistencia'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Intercepciones'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Balon Recuperado'); " +
+                "INSERT INTO ACCION('nombreAccion') VALUES ('Tiro Esquina');";
+        String INITIAL_FALTA ="INSERT INTO Falta('nombreFalta') VALUES ('Falta Penal'); " +
+                "INSERT INTO Falta('nombreFalta') VALUES ('Falta Tiro Directo'); " +
+                "INSERT INTO Falta('nombreFalta') VALUES ('Falta Tiro Indirecto'); " +
+                "INSERT INTO Falta('nombreFalta') VALUES ('Falta Obstruccion'); " +
+                "INSERT INTO Falta('nombreFalta') VALUES ('Falta');";
+        String INITIAL_PASE ="INSERT INTO Pase('nombrePase') VALUES ('Pase'); " +
+                "INSERT INTO Pase('nombrePase') VALUES ('Pase Filtrado'); " +
+                "INSERT INTO Pase('nombrePase') VALUES ('Pase Detras'); " +
+                "INSERT INTO Pase('nombrePase') VALUES ('Saque Banda');";
+        String INITIAL_TIPO = "INSERT INTO TipoPase('nombreTipo') VALUES('Corto'); " +
+                "INSERT INTO TipoPase('nombreTipo') VALUES('Medio'); " +
+                "INSERT INTO TipoPase('nombreTipo') VALUES('Largo');";
+
+
+        String[] split = INITIAL_ACCION.split(";");
+        for (int i = 0; i < split.length; i++) {
+            String tmp = split[i];
+            db.execSQL(tmp);
+        }
+        for(String tmp : INITIAL_FALTA.split(";")){
+            db.execSQL(tmp);
+        }
+        for(String tmp : INITIAL_PASE.split(";")){
+            db.execSQL(tmp);
+        }
+        for(String tmp : INITIAL_TIPO.split(";")){
+            db.execSQL(tmp);
+        }
     }
 
     @Override
@@ -168,6 +230,8 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PASE);
         db.execSQL(CREATE_TABLE_CAMBIOPARTIDO);
         db.execSQL(CREATE_TABLE_ESQUEMA);
+        db.execSQL(CREATE_TABLE_TIPOPASE);
+        initDB(db);
     }
 
     @Override
@@ -187,6 +251,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PASE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAMBIOPARTIDO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ESQUEMA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TIPOPASE);
 
         // create new tables
         onCreate(db);
@@ -340,5 +405,141 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+
+    public List<Accion> getDefaultAccions(){
+        List<Accion> retVal = new ArrayList();
+        retVal.addAll(getJustDefaultPase());
+        retVal.addAll(getJustDefaultAccion());
+        retVal.addAll(getJustDefaultFalta());
+        return retVal;
+    }
+
+    public List<Accion> getJustDefaultAccion(){
+        List<Accion> retVal = new ArrayList<>();
+        String Query = "SELECT "+ID_ACCION+","+NOMBRE_ACCION+" FROM "+TABLE_ACCION+" WHERE "+ID_ACCION +" <= "+ DEFAULT_ACCION;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(Query, null);
+        if (cursor.moveToFirst()){
+            retVal.add(new Accion(cursor.getInt(0),cursor.getString(1)));
+            while(cursor.moveToNext()){
+                retVal.add(new Accion(cursor.getInt(0),cursor.getString(1)));
+            }
+        }
+        cursor.close();
+        db.close();
+        return retVal;
+    }
+
+    public List<Falta> getJustDefaultFalta(){
+        List<Falta> retVal = new ArrayList<>();
+        String Query = "SELECT "+ID_FALTA+","+NOMBRE_FALTA+" FROM "+TABLE_FALTA+" WHERE "+ID_FALTA +" <= "+ DEFAULT_FALTA;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(Query, null);
+        if (cursor.moveToFirst()){
+            retVal.add(new Falta(cursor.getInt(0),cursor.getString(1)));
+            while(cursor.moveToNext()){
+                retVal.add(new Falta(cursor.getInt(0),cursor.getString(1)));
+            }
+        }
+        cursor.close();
+        db.close();
+        return retVal;
+    }
+
+    public List<Pase> getJustDefaultPase(){
+        List<Pase> retVal = new ArrayList<>();
+        String Query = "SELECT "+ID_PASE+","+NOMBRE_PASE+" FROM "+TABLE_PASE+" WHERE "+ID_PASE +" <= "+ DEFAULT_PASE;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(Query,null);
+        if (cursor.moveToFirst()){
+            retVal.add(new Pase(cursor.getInt(0),cursor.getString(1)));
+            while(cursor.moveToNext()){
+                retVal.add(new Pase(cursor.getInt(0),cursor.getString(1)));
+            }
+        }
+        cursor.close();
+        db.close();
+        return retVal;
+    }
+
+    public List<Accion> getUserAccions(){
+        List<Accion> retVal = new ArrayList();
+        retVal.addAll(getUserPase());
+        retVal.addAll(getUserAccion());
+        retVal.addAll(getUserFalta());
+        return retVal;
+    }
+
+
+    public List<Accion> getUserAccion(){
+        List<Accion> retVal = new ArrayList<>();
+        String Query = "SELECT "+ID_ACCION+","+NOMBRE_ACCION+" FROM "+TABLE_ACCION+" WHERE "+ID_ACCION +" > "+ DEFAULT_ACCION;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(Query,null);
+        if (cursor.moveToFirst()){
+            retVal.add(new Accion(cursor.getInt(0),cursor.getString(1)));
+            while(cursor.moveToNext()){
+                retVal.add(new Accion(cursor.getInt(0),cursor.getString(1)));
+            }
+        }
+        cursor.close();
+        db.close();
+        return retVal;
+    }
+
+    public List<Falta> getUserFalta(){
+        List<Falta> retVal = new ArrayList<>();
+        String Query = "SELECT "+ID_FALTA+","+NOMBRE_FALTA+" FROM "+TABLE_FALTA+" WHERE "+ID_FALTA +" > "+ DEFAULT_FALTA;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(Query,null);
+        if (cursor.moveToFirst()){
+            retVal.add(new Falta(cursor.getInt(0),cursor.getString(1)));
+            while(cursor.moveToNext()){
+                retVal.add(new Falta(cursor.getInt(0),cursor.getString(1)));
+            }
+        }
+        cursor.close();
+        db.close();
+        return retVal;
+    }
+
+    public List<Pase> getUserPase(){
+        List<Pase> retVal = new ArrayList<>();
+        String Query = "SELECT "+ID_PASE+","+NOMBRE_PASE+" FROM "+TABLE_PASE+" WHERE "+ID_PASE +" > "+ DEFAULT_PASE;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(Query,null);
+        if (cursor.moveToFirst()){
+            retVal.add(new Pase(cursor.getInt(0),cursor.getString(1)));
+            while(cursor.moveToNext()){
+                retVal.add(new Pase(cursor.getInt(0),cursor.getString(1)));
+            }
+        }
+        cursor.close();
+        db.close();
+        return retVal;
+    }
+
+    public void addAccion(Accion newAccion){
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = this.getWritableDatabase();
+        if (newAccion instanceof Pase) {
+            values.put(NOMBRE_PASE, newAccion.getNombreAccion());
+            db.insert(TABLE_PASE, null, values);
+        }
+        else if (newAccion instanceof Falta) {
+            values.put(NOMBRE_FALTA,newAccion.getNombreAccion());
+            db.insert(TABLE_FALTA, null, values);
+        }else{
+            values.put(NOMBRE_ACCION,newAccion.getNombreAccion());
+            db.insert(TABLE_ACCION,null,values);
+        }
+        db.close();
+    }
 
 }

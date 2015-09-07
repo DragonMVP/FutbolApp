@@ -3,26 +3,166 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
 
-        <GridView
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:id="@+id/gridView"
-            android:layout_row="0"
-            android:layout_column="0" />
+            <GridView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnGrid"
+                android:stretchMode="columnWidth"
+                android:numColumns="5"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="165dp"
+                android:layout_marginStart="165dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="350dp"
-            android:id="@+id/imageView"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:background="@drawable/soccerfield" />
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnList"
+                android:layout_marginRight="856dp"
+                android:layout_marginEnd="856dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/btnGrid"
+                android:layout_alignEnd="@+id/btnGrid" />
+        </RelativeLayout>
 
-    </GridLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/soccerfield"
+
+            android:id="@+id/layoutCancha">
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnPortero"
+                android:layout_marginLeft="85dp"
+                android:layout_marginStart="85dp"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+
+                android:background="@drawable/defaultuser"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador1"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/btnPortero"
+                android:layout_toEndOf="@+id/btnPortero"
+                android:layout_marginLeft="72dp"
+                android:layout_marginStart="72dp" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador2"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_alignTop="@+id/btnPortero"
+                android:layout_alignLeft="@+id/btnJugador1"
+                android:layout_alignStart="@+id/btnJugador1" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador3"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/btnJugador2"
+                android:layout_alignStart="@+id/btnJugador2" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador4"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador5"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador6"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador7"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/btnJugador8"
+                android:layout_alignStart="@+id/btnJugador8" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador10"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_below="@+id/btnJugador5"
+                android:layout_alignLeft="@+id/btnJugador9"
+                android:layout_alignStart="@+id/btnJugador9" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador9"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_marginLeft="47dp"
+                android:layout_marginStart="47dp"
+                android:layout_above="@+id/btnJugador5"
+                android:layout_toRightOf="@+id/btnJugador7"
+                android:layout_toEndOf="@+id/btnJugador7" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/btnJugador8"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
+                android:background="@drawable/defaultuser"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/btnJugador6"
+                android:layout_toEndOf="@+id/btnJugador6"
+                android:layout_marginLeft="68dp"
+                android:layout_marginStart="68dp" />
+        </RelativeLayout>
 
 </LinearLayout>

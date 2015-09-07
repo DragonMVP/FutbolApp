@@ -40,6 +40,12 @@
         <activity android:name=".EsquemaActivity"
             android:label="Esquemas"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".AccionActivity"
+            android:screenOrientation="portrait"
+            android:label="Acciones"></activity>
+        <activity android:name=".PartidoConfigActivity"
+            android:label="Configuracion partido"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

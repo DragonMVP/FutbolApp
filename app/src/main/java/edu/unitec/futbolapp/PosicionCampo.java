@@ -1,9 +1,11 @@
 package edu.unitec.futbolapp;
 
+import java.io.Serializable;
+
 /**
  * Created by nivx1 on 09/02/2015.
  */
-public class PosicionCampo {
+public class PosicionCampo implements Serializable {
     private int idPosicion;
     private String descripcionPosicion;
 

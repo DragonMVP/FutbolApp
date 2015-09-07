@@ -20,7 +20,7 @@ public class ConfiguracionActivity extends Activity {
         btnClub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(v.getContext(),ClubActivity.class);
+                Intent startIntent = new Intent(v.getContext(), ClubActivity.class);
                 startActivity(startIntent);
             }
         });
@@ -30,6 +30,15 @@ public class ConfiguracionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent startIntent = new Intent(v.getContext(),EsquemaActivity.class);
+                startActivity(startIntent);
+            }
+        });
+
+        Button btnAccion = (Button)findViewById(R.id.btnAccion);
+        btnAccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(v.getContext(),AccionActivity.class);
                 startActivity(startIntent);
             }
         });

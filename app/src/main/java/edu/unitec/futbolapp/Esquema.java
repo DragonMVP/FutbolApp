@@ -1,9 +1,11 @@
 package edu.unitec.futbolapp;
 
+import java.io.Serializable;
+
 /**
  * Created by nivx1 on 09/04/2015.
  */
-public class Esquema {
+public class Esquema implements Serializable{
 
     private int idEsquema;
     private int Delanteros;
@@ -53,5 +55,11 @@ public class Esquema {
 
     public void setDefensas(int defensas) {
         Defensas = defensas;
+    }
+
+
+    @Override
+    public String toString() {
+        return Delanteros+"-"+Medios+"-"+Defensas;
     }
 }

@@ -4,8 +4,8 @@ package edu.unitec.futbolapp;
  * Created by nivx1 on 09/04/2015.
  */
 public class Accion {
-    private int idAccion;
-    private String nombreAccion;
+    protected int idAccion;
+    protected String nombreAccion;
 
     public int getIdAccion() {
         return idAccion;
@@ -32,5 +32,10 @@ public class Accion {
 
         this.idAccion = idAccion;
         this.nombreAccion = nombreAccion;
+    }
+
+    @Override
+    public String toString() {
+        return nombreAccion+",Accion";
     }
 }
