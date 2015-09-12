@@ -24,14 +24,11 @@ public class Chronometer extends Thread {
         this.Pause = Pause;
     }
 
-
-
     public void setAlive(boolean Alive) {
         this.Alive = Alive;
     }
+
     private boolean Alive;
-
-
 
     public Date getINIT_DATE() {
         return INIT_DATE;
@@ -57,13 +54,25 @@ public class Chronometer extends Thread {
     }
 
 
-    public long getMinutesPassed() {
+    public long getTimePassed() {
         return timePassed;
     }
 
-    public void setMinutesPassed(int minutesPassed) {
-        this.timePassed = minutesPassed;
+    public String getDifference(long timePassed){
+        timePassed = this.timePassed - timePassed;
+        StringBuilder SB = new StringBuilder();
+        int min = (int)timePassed/(60);
+        int sec = (int)(timePassed-(min*60));
+        if (min < 10)
+            SB.append(0);
+        SB.append(min);
+        SB.append(":");
+        if (sec < 10)
+            SB.append(0);
+        SB.append(sec);
+        return SB.toString();
     }
+
 
     public Chronometer(Date INIT_DATE) {
         this.INIT_DATE = INIT_DATE;

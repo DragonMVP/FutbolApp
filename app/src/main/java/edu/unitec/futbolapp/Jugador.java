@@ -14,7 +14,7 @@ public class Jugador implements Serializable{
     private int numeroJugador;
     private String FOTO_LOCATION;
     //daemon: artificial para el bug de combobox
-    private boolean selected;
+    private boolean selected = false;
 
     public String getFOTO_LOCATION() {
         return FOTO_LOCATION;

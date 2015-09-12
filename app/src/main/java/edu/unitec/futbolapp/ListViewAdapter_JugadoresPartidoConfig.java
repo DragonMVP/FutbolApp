@@ -65,51 +65,92 @@ public class ListViewAdapter_JugadoresPartidoConfig extends ArrayAdapter<Jugador
             //view = new View(Contexto);
             LayoutInflater inflater=Actividad.getLayoutInflater();
             convertView=inflater.inflate(R.layout.listview_partidoconfig_players, parent, false);
-            vh = new ViewHolder();
+          /*  vh = new ViewHolder();
             vh.checkbox = (CheckBox)convertView.findViewById(R.id.cbEntra);
             vh.name = (TextView)convertView.findViewById(R.id.lblNombreJugador);
             vh.posicion = (TextView)convertView.findViewById(R.id.lblPosicion);
-
-            /*TextView lblName = (TextView)convertView.findViewById(R.id.lblNombreJugador);
-            TextView lblPosicion = (TextView) convertView.findViewById(R.id.lblPosicion);
-            CheckBox cbEntra = (CheckBox) convertView.findViewById(R.id.cbEntra);
-
-            lblName.setText(((Jugador) LISTA.get(position)).getNombreJugador());
-            lblPosicion.setText(((Jugador) LISTA.get(position)).getPosicion().getDescripcionPosicion());*/
-
-            vh.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int getPosition = (Integer) buttonView.getTag();
-                    LISTA.get(getPosition).setSelected(buttonView.isChecked());
-
-                    if (isChecked) {
-                        INICIALES.add((Jugador) LISTA.get(position));
-                        //System.out.println("-----------------"+LISTA.get(position).getNombreJugador());
-                    } else {
-                        if (INICIALES.contains((Jugador) LISTA.get(position))) {
-                            INICIALES.remove((Jugador) LISTA.get(position));
-                            //System.out.println("++++++++++++++++++++" + LISTA.get(position).getNombreJugador());
-                        }
-                    }
-                }
-            });
-
-
-            convertView.setTag(vh);
-            convertView.setTag(R.id.cbEntra, vh.checkbox);
-            convertView.setTag(R.id.lblNombreJugador, vh.name);
-            convertView.setTag(R.id.lblPosicion, vh.posicion);
-
+            */
         }else{
             //convertView = (View)convertView;
             vh = (ViewHolder)convertView.getTag();
         }
 
-        vh.checkbox.setTag(position); // This line is important
-        vh.name.setText(LISTA.get(position).getNombreJugador());
-        vh.posicion.setText(LISTA.get(position).getPosicion().getDescripcionPosicion());
-        vh.checkbox.setChecked(LISTA.get(position).isSelected());
+        TextView lblName = (TextView)convertView.findViewById(R.id.lblNombreJugador);
+        TextView lblPosicion = (TextView) convertView.findViewById(R.id.lblPosicion);
+        CheckBox cbEntra = (CheckBox) convertView.findViewById(R.id.cbEntra);
+
+        lblName.setText(((Jugador) LISTA.get(position)).getNombreJugador());
+        lblPosicion.setText(((Jugador) LISTA.get(position)).getPosicion().getDescripcionPosicion());
+        cbEntra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox CB = (CheckBox) v.findViewById(R.id.cbEntra);
+
+                if (CB.isChecked()) {
+                    INICIALES.add((Jugador) LISTA.get(position));
+                    LISTA.get(position).setSelected(true);
+                } else {
+                    LISTA.get(position).setSelected(false);
+                    if (INICIALES.contains((Jugador) LISTA.get(position))) {
+                        INICIALES.remove((Jugador) LISTA.get(position));
+                    }
+                }
+            }
+        });
+        cbEntra.setChecked(LISTA.get(position).isSelected());
+        //convertView.setTag(vh);
+
+        //convertView.setTag(R.id.cbEntra, vh.checkbox);
+
+        //convertView.setTag(R.id.lblNombreJugador, vh.name);
+
+        //convertView.setTag(R.id.lblPosicion, vh.posicion);
+
+        //
+
+        //vh.checkbox.setTag(position); // This line is important
+
+        //vh.name.setText(LISTA.get(position).getNombreJugador());
+
+        //vh.posicion.setText(LISTA.get(position).getPosicion().getDescripcionPosicion());
+
+        //vh.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        //@Override
+
+        //public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        //int getPosition = (Integer) buttonView.getTag();
+
+        //LISTA.get(position).setSelected(buttonView.isChecked());
+
+        //
+
+        //if (isChecked) {
+
+        //INICIALES.add((Jugador) LISTA.get(position));
+
+        ////System.out.println("-----------------"+LISTA.get(position).getNombreJugador());
+
+        //} else {
+
+        //if (INICIALES.contains((Jugador) LISTA.get(position))) {
+
+        //INICIALES.remove((Jugador) LISTA.get(position));
+
+        ////System.out.println("++++++++++++++++++++" + LISTA.get(position).getNombreJugador());
+
+        //}
+
+        //}
+
+        //}
+
+        //});
+
+        //vh.checkbox.setChecked(LISTA.get(position).isSelected());
+
+        //
 
         return convertView;
     }

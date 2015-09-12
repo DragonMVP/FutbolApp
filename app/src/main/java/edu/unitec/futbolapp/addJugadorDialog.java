@@ -44,6 +44,7 @@ public class addJugadorDialog extends DialogFragment {
     Button btnSeleccionar,btnTomar;
     Activity Actividad;
     int IDEQUIPO;
+    String IMGPATH;
 
     public addJugadorDialog(List<Jugador> Jugadores,MyListViewAdapter Adapter, int IDEQUIPO,Activity Actividad) {
         this.Jugadores = Jugadores;
@@ -61,8 +62,8 @@ public class addJugadorDialog extends DialogFragment {
         Posicion = (Spinner)view.findViewById(R.id.spPosicion);
         btnSeleccionar = (Button)view.findViewById(R.id.btnSeleccionar);
         btnTomar = (Button)view.findViewById(R.id.btnTomar);
-        imgPath = (EditText)view.findViewById(R.id.imgPath);
-
+       // imgPath = (EditText)view.findViewById(R.id.imgPath);
+        IMGPATH = "";
         String[] P={"Portero","Defensa","Medio","Delantero"};
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(Actividad, android.R.layout.simple_spinner_item, P);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -130,11 +131,13 @@ public class addJugadorDialog extends DialogFragment {
                         close = true;
 
                         int SelectedInt = Posicion.getSelectedItemPosition();
-                        Jugador tmp = new Jugador(-1,IDEQUIPO,SelectedInt, nameJugador.getText().toString(),Integer.parseInt(numeroJugador.getText().toString()),imgPath.getText().toString());
+                        if (IMGPATH.equals(""))
+                            IMGPATH="DEFAULT";
+                        Jugador tmp = new Jugador(-1,IDEQUIPO,SelectedInt, nameJugador.getText().toString(),Integer.parseInt(numeroJugador.getText().toString()),IMGPATH);
                         MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
                         db.addJugador(tmp);
 
-                        (Adapter).setNewLista(db.getAllPlayers(IDEQUIPO));
+                        Jugadores = (db.getAllPlayers(IDEQUIPO));
                         db.close();
                         Adapter.notifyDataSetChanged();
 
@@ -177,7 +180,7 @@ public class addJugadorDialog extends DialogFragment {
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
                         outFile.flush();
                         outFile.close();
-                        imgPath.setText(file.getAbsolutePath());
+                        IMGPATH = (file.getAbsolutePath());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -196,7 +199,7 @@ public class addJugadorDialog extends DialogFragment {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                imgPath.setText(picturePath);
+                IMGPATH = (picturePath);
             }
 
         }

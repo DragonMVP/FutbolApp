@@ -38,13 +38,13 @@
             android:id="@+id/layoutCancha">
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnPortero"
                 android:layout_marginLeft="85dp"
                 android:layout_marginStart="85dp"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
 
                 android:background="@drawable/defaultuser"
                 android:layout_centerVertical="true"
@@ -52,11 +52,11 @@
                 android:layout_alignParentStart="true" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador1"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/btnPortero"
@@ -65,85 +65,85 @@
                 android:layout_marginStart="72dp" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador2"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_alignTop="@+id/btnPortero"
                 android:layout_alignLeft="@+id/btnJugador1"
                 android:layout_alignStart="@+id/btnJugador1" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador3"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_alignParentBottom="true"
                 android:layout_alignLeft="@+id/btnJugador2"
                 android:layout_alignStart="@+id/btnJugador2" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador4"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador5"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador6"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador7"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_alignParentTop="true"
                 android:layout_alignLeft="@+id/btnJugador8"
                 android:layout_alignStart="@+id/btnJugador8" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador10"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_below="@+id/btnJugador5"
                 android:layout_alignLeft="@+id/btnJugador9"
                 android:layout_alignStart="@+id/btnJugador9" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador9"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_marginLeft="47dp"
                 android:layout_marginStart="47dp"
@@ -152,11 +152,11 @@
                 android:layout_toEndOf="@+id/btnJugador7" />
 
             <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:id="@+id/btnJugador8"
-                android:maxHeight="80dp"
-                android:maxWidth="80dp"
+                android:maxHeight="70dp"
+                android:maxWidth="70dp"
                 android:background="@drawable/defaultuser"
                 android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@+id/btnJugador6"
