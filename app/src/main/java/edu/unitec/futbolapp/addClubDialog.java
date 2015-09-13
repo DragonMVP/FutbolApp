@@ -33,7 +33,7 @@ public class addClubDialog extends DialogFragment {
         nameClub = (EditText) view.findViewById(R.id.txtnameClub);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Club");
+        builder.setTitle("Agregar Club");
         builder.setView(view);
 
         builder.setNegativeButton("Close", new DialogInterface.OnClickListener(){

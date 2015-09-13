@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ofensiva"
+        android:text="Defensiva"
         android:id="@+id/textView"
         android:textSize="20dp"
         android:layout_gravity="center_horizontal" />
@@ -15,7 +15,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/numOfensiva"
+        android:id="@+id/numDefensiva"
         android:spinnerMode="dropdown"
         android:entries="@array/numbers" />
 
@@ -37,7 +37,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Defensiva"
+        android:text="Ofensiva"
         android:id="@+id/textView4"
         android:textSize="20dp"
         android:layout_gravity="center_horizontal" />
@@ -45,7 +45,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/numDefensiva"
+        android:id="@+id/numOfensiva"
         android:spinnerMode="dropdown"
         android:entries="@array/numbers" />
 

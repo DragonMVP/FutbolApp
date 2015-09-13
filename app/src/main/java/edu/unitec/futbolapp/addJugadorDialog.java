@@ -90,7 +90,7 @@ public class addJugadorDialog extends DialogFragment {
 
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Student");
+        builder.setTitle("Agregar Jugador");
         builder.setView(view);
 
         builder.setNegativeButton("Close", new DialogInterface.OnClickListener(){

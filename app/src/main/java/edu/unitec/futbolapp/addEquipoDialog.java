@@ -39,7 +39,7 @@ public class addEquipoDialog extends DialogFragment {
         nameEquipo = (EditText) view.findViewById(R.id.txtnameEquipo);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Student");
+        builder.setTitle("Agregar Equipo");
         builder.setView(view);
 
         builder.setNegativeButton("Close", new DialogInterface.OnClickListener(){
