@@ -66,7 +66,7 @@ public class ListViewAdapter_JugadoresPartidoConfig extends ArrayAdapter<Jugador
             LayoutInflater inflater=Actividad.getLayoutInflater();
             convertView=inflater.inflate(R.layout.listview_partidoconfig_players, parent, false);
             vh = new ViewHolder();
-            vh.checkbox = (CheckBox)convertView.findViewById(R.id.cbEntra);
+            vh.checkbox = (ChecrrkBox)convertView.findViewById(R.id.cbEntra);
             vh.name = (TextView)convertView.findViewById(R.id.lblNombreJugador);
             vh.posicion = (TextView)convertView.findViewById(R.id.lblPosicion);
 
