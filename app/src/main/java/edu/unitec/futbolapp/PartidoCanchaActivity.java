@@ -3,6 +3,7 @@ package edu.unitec.futbolapp;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -24,13 +26,15 @@ import java.util.List;
 public class PartidoCanchaActivity extends Activity {
     public static Accion ACCION_PRINCIPAL = null;
     public static TipoPase TIPO_PASE = null;
+    public static PartidoMemoria PARTIDO = null;
+    public static Jugador ENVIA_PASE = null;
     private Esquema ESQUEMA;
 
     private List<Jugador> JUGADORES_CANCHA;
     //private List<Jugador> JUGADORES_BANCA;
 
     private List<Accion> LISTA_ACCION;
-    private static Chronometer TIEMPO_TOTAL;
+    public static Chronometer TIEMPO_TOTAL;
     private static Chronometer TIEMPO_PELOTA;
 
     public static int ESPERA_PASE =0;
@@ -58,8 +62,11 @@ public class PartidoCanchaActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.partido_activity);
 
-       JUGADORES_CANCHA = (ArrayList<Jugador>)getIntent().getSerializableExtra("JUGADORES");
+
+        JUGADORES_CANCHA = (ArrayList<Jugador>)getIntent().getSerializableExtra("JUGADORES");
+        PARTIDO = new PartidoMemoria();
         ESQUEMA =(Esquema)getIntent().getSerializableExtra("ESQUEMA");
+        PARTIDO.initJugadoresCancha(JUGADORES_CANCHA);
 
         btnDefensas = new ImageButton[ESQUEMA.getDefensas()];
         btnMedios = new ImageButton[ESQUEMA.getMedios()];
@@ -71,15 +78,15 @@ public class PartidoCanchaActivity extends Activity {
         for(Jugador tmp: JUGADORES_CANCHA){
             if (tmp.getPosicion().getDescripcionPosicion().equals("Defensa")) {
                 btnOfensivos[Def] = (ImageButton) findViewById(LISTABOTONES[Def]);
-                btnOfensivos[Def].setOnClickListener(new onClickHandlerJugador(tmp));
+                btnOfensivos[Def].setOnClickListener(new onClickHandlerJugador(tmp,this));
                 Def++;
             }else  if (tmp.getPosicion().getDescripcionPosicion().equals("Medio")) {
                 btnMedios[Med] = (ImageButton)findViewById(LISTABOTONES[ESQUEMA.getDefensas()+Med]);
-                btnMedios[Med].setOnClickListener(new onClickHandlerJugador(tmp));
+                btnMedios[Med].setOnClickListener(new onClickHandlerJugador(tmp,this));
                 Med++;
             } else  if (tmp.getPosicion().getDescripcionPosicion().equals("Delantero")) {
                 btnOfensivos[Of] = (ImageButton)findViewById(LISTABOTONES[ESQUEMA.getDefensas()+ESQUEMA.getMedios()+Of]);
-                btnOfensivos[Of].setOnClickListener(new onClickHandlerJugador(tmp));
+                btnOfensivos[Of].setOnClickListener(new onClickHandlerJugador(tmp,this));
                 Of++;
             }
         }
@@ -88,6 +95,7 @@ public class PartidoCanchaActivity extends Activity {
         LISTA_ACCION = new ArrayList<>();
         MyDatabaseHandler db = new MyDatabaseHandler(this.getBaseContext());
         LISTA_ACCION = db.getDefaultAccions();
+        LISTA_ACCION.addAll(db.getUserAccions());
         db.close();
 
         RelativeLayout canchaLayout = (RelativeLayout)findViewById(R.id.layoutCancha);
@@ -96,6 +104,8 @@ public class PartidoCanchaActivity extends Activity {
             public void onClick(View v) {
                 if (ESPERA_PASE != 0){
                     Toast.makeText(v.getContext(),"PASE FALLADO",Toast.LENGTH_SHORT).show();
+                    PARTIDO.PaseJugador((Pase)ACCION_PRINCIPAL,TIPO_PASE,ENVIA_PASE,null,TIEMPO_TOTAL);
+                    ENVIA_PASE = null;
                     ESPERA_PASE = 0;
                 }
             }
@@ -118,8 +128,8 @@ public class PartidoCanchaActivity extends Activity {
         //inflater.inflate(R.menu.menu_menu_principal, menu);
         return true;
     }
-    @Override
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -129,6 +139,34 @@ public class PartidoCanchaActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenu.ContextMenuInfo menuInfo) {
+        //Context menu
+
+            menu.setHeaderTitle("Falta");
+            menu.add(Menu.NONE, 1, Menu.NONE, "Cometida");
+            menu.add(Menu.NONE, 2, Menu.NONE, "Recibida");
+        }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
+        switch(item.getItemId())
+        {
+            case 1:
+            {
+                openContextMenu(item.getActionView());
+            }
+            break;
+            case 2:
+            {
+                PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,0,-1,TIEMPO_TOTAL);
+            }
+            break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
 
 }
 

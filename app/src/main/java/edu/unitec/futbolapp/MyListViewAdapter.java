@@ -62,8 +62,11 @@ public class MyListViewAdapter extends BaseAdapter {
 
 
         if (LISTA.get(position) instanceof  Jugador){
-
-            Bitmap thumbnail = (BitmapFactory.decodeFile(((Jugador)LISTA.get(position)).getFOTO_LOCATION()));
+            Bitmap thumbnail;
+            if (((Jugador)LISTA.get(position)).getFOTO_LOCATION().equals("DEFAULT")){
+                thumbnail =BitmapFactory.decodeResource(Actividad.getResources(), R.drawable.defaultuser);
+            }else
+                thumbnail = (BitmapFactory.decodeFile(((Jugador)LISTA.get(position)).getFOTO_LOCATION()));
             imgV.setImageBitmap(thumbnail);
         }
 
@@ -85,6 +88,5 @@ public class MyListViewAdapter extends BaseAdapter {
 
     public void setNewLista(List newL){
         this.LISTA = newL;
-        notifyDataSetChanged();
     }
 }

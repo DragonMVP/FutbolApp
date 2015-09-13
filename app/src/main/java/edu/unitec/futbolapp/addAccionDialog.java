@@ -102,8 +102,9 @@ public class addAccionDialog extends DialogFragment {
                         MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
                         db.addAccion(tmp);
 
-                        (Adapter).setNewLista(db.getUserAccions());
+                        ACCION = (db.getUserAccions());
                         db.close();
+                        Adapter.notifyDataSetChanged();
 
                     }
 

@@ -82,7 +82,7 @@ public class addEquipoDialog extends DialogFragment {
                         MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
                         db.addEquipo(tmp);
 
-                        (Adapter).setNewLista(db.getAllEquipos(IDCLUB));
+                       Equipos  = (db.getAllEquipos(IDCLUB));
                         db.close();
                         Adapter.notifyDataSetChanged();
 
