@@ -1,20 +1,24 @@
 package edu.unitec.futbolapp;
 
-/**
- * Created by nivx1 on 09/06/2015.
- */
+import android.app.Activity;
+import android.content.Context;
+import android.widget.TextView;
+
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author nivx1
+ * Created by nivx1 on 09/14/2015.
  */
-public class Chronometer extends Thread {
+public class Chronometer extends  Thread{
     private Date INIT_DATE;
     private long timePassed;
     private boolean Pause;
+
+    private Context CONTEXTO;
+
+    private TextView TXT;
 
     public boolean isPause() {
         return Pause;
@@ -54,6 +58,8 @@ public class Chronometer extends Thread {
     }
 
 
+
+
     public long getTimePassed() {
         return timePassed;
     }
@@ -74,28 +80,33 @@ public class Chronometer extends Thread {
     }
 
 
-    public Chronometer(Date INIT_DATE) {
+    public Chronometer(Date INIT_DATE,TextView E, Context C) {
         this.INIT_DATE = INIT_DATE;
         timePassed = 0;
         Alive = true;
         Pause = false;
+        TXT = E;
+        CONTEXTO = C;
     }
 
-
-
-
-    @Override
     public void run() {
         while (Alive){
-            if (!Pause){
-                timePassed += 1;
+                ((Activity)CONTEXTO).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!Pause) {
+                            timePassed += 1;
+                            TXT.setText(getTime());
+                        }
+                    }
+
+                });
+            try {
+                sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Chronometer.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 //System.out.println(getTime());
-                try {
-                    sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Chronometer.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         }
     }
-}

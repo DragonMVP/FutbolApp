@@ -81,8 +81,7 @@ public class addEquipoDialog extends DialogFragment {
                         Equipo tmp = new Equipo(-1,nameEquipo.getText().toString(),IDCLUB);
                         MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
                         db.addEquipo(tmp);
-
-                       Equipos  = (db.getAllEquipos(IDCLUB));
+                        Equipos.add(db.getLatestEquipo(IDCLUB));
                         db.close();
                         Adapter.notifyDataSetChanged();
 

@@ -5,7 +5,12 @@
     tools:context="edu.unitec.futbolapp.PartidoCanchaActivity">
     <item
         android:id="@+id/pause_time"
-        android:title="Pausar Tiempo"
+        android:title="Pausar Tiempo Balon"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/resume_time"
+        android:title="Resumir Tiempo Balon"
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item

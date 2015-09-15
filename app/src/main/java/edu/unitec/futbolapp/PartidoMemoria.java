@@ -23,7 +23,7 @@ public class PartidoMemoria {
 
     public void initJugadoresCancha(List<Jugador> EnCancha){
         for(Jugador tmp: EnCancha){
-            Jugadores.add(new JugadorPartido(0,tmp.getIdJugador(),""));
+            Jugadores.add(new JugadorPartido(0,tmp,""));
         }
     }
 
@@ -36,31 +36,132 @@ public class PartidoMemoria {
 
     public void CambioJugador(Jugador Entra,Jugador Sale, Chronometer Cronometro){
         for (JugadorPartido tmp: Jugadores){
-            if (tmp.getIdJugador() == Sale.getIdJugador()){
+            if (tmp.jugador.getIdJugador() == Sale.getIdJugador()){
                 tmp.setTIME(Cronometro.getTime());
                 break;
             }
         }
-        Jugadores.add(new JugadorPartido(Cronometro.getTimePassed(),Entra.getIdJugador(),""));
+        Jugadores.add(new JugadorPartido(Cronometro.getTimePassed(),Entra,""));
         Cambios.add(new CambiosPartido(Entra.getIdJugador(),Sale.getIdJugador(),Cronometro.getTime()));
     }
 
     public void PaseJugador(Pase Pa,TipoPase TipoPa,Jugador Envia,Jugador Recibe, Chronometer Cronometro){
         if (Recibe != null)
-            Pases.add(new PasePartido(Pa.getIdAccion(),TipoPa.getId(),Envia.getIdJugador(),Recibe.getIdJugador(),Cronometro.getTime()));
+            Pases.add(new PasePartido(Pa,TipoPa,Envia.getIdJugador(),Recibe.getIdJugador(),Cronometro.getTime()));
         else
-            Pases.add(new PasePartido(Pa.getIdAccion(),TipoPa.getId(),Envia.getIdJugador(),-1,Cronometro.getTime()));
+            Pases.add(new PasePartido(Pa,TipoPa,Envia.getIdJugador(),-1,Cronometro.getTime()));
     }
 
     public void FaltaJugador(Falta Fa,Jugador Player,int Cometida,int Tarjeta, Chronometer Cronometro){
-        Faltas.add(new FaltaPartido(Fa.getIdAccion(),Player.getIdJugador(),Cometida,Tarjeta,Cronometro.getTime()));
+        // Cometida = 0; NO COMETIO
+        // Tarjeta = 0; NO TARJETA
+        Faltas.add(new FaltaPartido(Fa,Player.getIdJugador(),Cometida,Tarjeta,Cronometro.getTime()));
         PartidoCanchaActivity.ENVIA_PASE = null;
     }
 
     public void AccionJugador(Accion Action,Jugador Player,Chronometer Cronometro){
-        Acciones.add(new AccionPartido(Action.getIdAccion(),Player.getIdJugador(),Cronometro.getTime()));
+        Acciones.add(new AccionPartido(Action,Player.getIdJugador(),Cronometro.getTime()));
     }
 
+    public int getCountAllPasesExitosos(){
+        int retVal = 0;
+        for (PasePartido tmp : Pases){
+            if (tmp.getIdJugadorRecibe() != -1)
+                retVal++;
+        }
+        return retVal;
+    }
+
+    public int getCountAllPasesFallidos(){
+        int retVal = 0;
+        for (PasePartido tmp: Pases){
+            if (tmp.getIdJugadorRecibe() == 1)
+                retVal++ ;
+        }
+        return retVal;
+    }
+
+    public int getCountPasesExitosos(Jugador jugador){
+        int retVal = 0;
+        for (PasePartido tmp : Pases){
+            if (tmp.getIdJugadorEnvia() == jugador.getIdJugador() && tmp.getIdJugadorRecibe() != -1)
+                retVal++ ;
+        }
+
+        return retVal;
+    }
+
+    public int getCountPasesFallidos(Jugador jugador){
+        int retVal = 0;
+        for (PasePartido tmp : Pases){
+            if (tmp.getIdJugadorEnvia() == jugador.getIdJugador() && tmp.getIdJugadorRecibe() == -1)
+                retVal++ ;
+        }
+
+        return retVal;
+    }
+
+    public List<FaltaPartido> getAllFaltaPartido(){
+        return Faltas;
+    }
+
+    public List<AccionPartido> getAllAccionPartido(){
+        return Acciones;
+    }
+
+    public List<AccionPartido> getAccionPartido(Jugador jugador){
+        List<AccionPartido> retVal = new ArrayList<>();
+        for (AccionPartido tmp: Acciones){
+            if (tmp.getIdJugador() == jugador.getIdJugador())
+                retVal.add(tmp);
+        }
+        return retVal;
+    }
+
+    public List<FaltaPartido> getFaltaPartido(Jugador jugador){
+        List<FaltaPartido> retVal = new ArrayList<>();
+        for (FaltaPartido tmp: Faltas){
+            if (tmp.getIdJugador() == jugador.getIdJugador())
+                retVal.add(tmp);
+        }
+        return retVal;
+    }
+
+    public int getCountFaltasCometidasPartido(Jugador jugador){
+        int retVal = 0;
+        for (FaltaPartido tmp : Faltas){
+            if (tmp.getIdJugador() == jugador.getIdJugador() && tmp.Cometida == 1)
+                retVal++;
+        }
+        return retVal;
+    }
+
+    public int getCountFaltasRecibidasPartido(Jugador jugador){
+        int retVal = 0;
+        for (FaltaPartido tmp : Faltas){
+            if (tmp.getIdJugador() == jugador.getIdJugador() && tmp.Cometida == 0)
+                retVal++;
+        }
+        return retVal;
+    }
+
+    public int getCountAccionJugador(Accion accion, Jugador jugador){
+        int retVal = 0;
+        for (AccionPartido tmp: Acciones){
+            if (tmp.getIdJugador() == jugador.getIdJugador() && accion.equals(tmp.getAccion()))
+                retVal++;
+        }
+        return retVal;
+    }
+
+    public int getCountAllJugador(Accion accion){
+        int retVal = 0;
+        for (AccionPartido tmp: Acciones){
+            if (accion.equals(tmp.getAccion()))
+                retVal++;
+        }
+        return retVal;
+    }
 
 }
 
@@ -100,22 +201,22 @@ class CambiosPartido{
     }
 }
 class AccionPartido{
-    int idAccion;
+    Accion accion;
     int idJugador;
     String TIME;
 
-    public AccionPartido(int idAccion, int idJugador, String TIME) {
-        this.idAccion = idAccion;
+    public AccionPartido(Accion accion, int idJugador, String TIME) {
+        this.accion = accion;
         this.idJugador = idJugador;
         this.TIME = TIME;
     }
 
-    public int getIdAccion() {
-        return idAccion;
+    public Accion getAccion() {
+        return accion;
     }
 
-    public void setIdAccion(int idAccion) {
-        this.idAccion = idAccion;
+    public void setAccion(Accion accion) {
+        this.accion = accion;
     }
 
     public int getIdJugador() {
@@ -135,26 +236,26 @@ class AccionPartido{
     }
 }
 class FaltaPartido{
-    int idFalta;
+    Falta falta;
     int idJugador;
     int Cometida; // 0 = RECIBIDA; 1 = COMETIDA
     int Tarjeta; // 0 | NULL = Nada; 1 = Amarilla; 2 = Roja;
     String TIME;
 
-    public FaltaPartido(int idFalta, int idJugador, int cometida, int tarjeta, String TIME) {
-        this.idFalta = idFalta;
+    public FaltaPartido(Falta falta, int idJugador, int cometida, int tarjeta, String TIME) {
+        this.falta = falta;
         this.idJugador = idJugador;
         Cometida = cometida;
         Tarjeta = tarjeta;
         this.TIME = TIME;
     }
 
-    public int getIdFalta() {
-        return idFalta;
+    public Falta getFalta() {
+        return falta;
     }
 
-    public void setIdFalta(int idFalta) {
-        this.idFalta = idFalta;
+    public void setFalta(Falta falta) {
+        this.falta = falta;
     }
 
     public int getIdJugador() {
@@ -190,15 +291,15 @@ class FaltaPartido{
     }
 }
 class PasePartido{
-    int idPase;
-    int idTipoPase;
+    Pase pase;
+    TipoPase tipoPase;
     int idJugadorEnvia;
     int idJugadorRecibe; // -1 | NULL = FALLO
     String TIME;
 
-    public PasePartido(int idPase, int idTipoPase, int idJugadorEnvia, int idJugadorRecibe, String TIME) {
-        this.idPase = idPase;
-        this.idTipoPase = idTipoPase;
+    public PasePartido(Pase pase, TipoPase tipoPase, int idJugadorEnvia, int idJugadorRecibe, String TIME) {
+        this.pase = pase;
+        this.tipoPase = tipoPase;
         this.idJugadorEnvia = idJugadorEnvia;
         this.idJugadorRecibe = idJugadorRecibe;
         this.TIME = TIME;
@@ -230,13 +331,21 @@ class PasePartido{
 }
 class JugadorPartido{
     long tiempoEntrada;
-    int idJugador;
+    Jugador jugador;
     String TIME;
 
-    public JugadorPartido(long tiempoEntrada, int idJugador, String TIME) {
+    public JugadorPartido(long tiempoEntrada, Jugador jugador, String TIME) {
         this.tiempoEntrada = tiempoEntrada;
-        this.idJugador = idJugador;
+        this.jugador = jugador;
         this.TIME = TIME;
+    }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
     }
 
     public long getTiempoEntrada() {
@@ -247,13 +356,7 @@ class JugadorPartido{
         this.tiempoEntrada = tiempoEntrada;
     }
 
-    public int getIdJugador() {
-        return idJugador;
-    }
 
-    public void setIdJugador(int idJugador) {
-        this.idJugador = idJugador;
-    }
 
     public String getTIME() {
         return TIME;

@@ -8,5 +8,6 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/btnAccion"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:typeface="monospace" />
 </LinearLayout>

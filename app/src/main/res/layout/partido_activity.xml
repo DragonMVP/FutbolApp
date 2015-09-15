@@ -3,7 +3,59 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <RelativeLayout
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Tiempo Partido: "
+            android:id="@+id/textView15"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Tiempo Partido: "
+            android:id="@+id/txtTiempoPartido"
+            android:layout_marginLeft="42dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView15"
+            android:layout_toEndOf="@+id/textView15"
+            android:layout_marginStart="42dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Tiempo Balon"
+            android:id="@+id/txtTiempoBalon"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Tiempo Balon: "
+            android:id="@+id/textView18"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/txtTiempoBalon"
+            android:layout_toStartOf="@+id/txtTiempoBalon"
+            android:layout_marginRight="63dp"
+            android:layout_marginEnd="63dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="120dp">
 
@@ -12,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btnGrid"
                 android:stretchMode="columnWidth"
-                android:numColumns="5"
+                android:numColumns="10"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"

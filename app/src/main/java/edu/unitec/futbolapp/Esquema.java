@@ -60,6 +60,6 @@ public class Esquema implements Serializable{
 
     @Override
     public String toString() {
-        return Delanteros+"-"+Medios+"-"+Defensas;
+        return Defensas+"-"+Medios+"-"+Delanteros;
     }
 }

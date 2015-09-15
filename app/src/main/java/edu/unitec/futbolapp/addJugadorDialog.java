@@ -137,7 +137,7 @@ public class addJugadorDialog extends DialogFragment {
                         MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
                         db.addJugador(tmp);
 
-                        Jugadores = (db.getAllPlayers(IDEQUIPO));
+                        Jugadores.add(db.getLatestJugador(IDEQUIPO));
                         db.close();
                         Adapter.notifyDataSetChanged();
 

@@ -9,15 +9,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by nivx1 on 09/03/2015.
@@ -29,6 +33,7 @@ public class PartidoCanchaActivity extends Activity {
     public static PartidoMemoria PARTIDO = null;
     public static Jugador ENVIA_PASE = null;
     private Esquema ESQUEMA;
+    private boolean midTime = false;
 
     private List<Jugador> JUGADORES_CANCHA;
     //private List<Jugador> JUGADORES_BANCA;
@@ -57,10 +62,18 @@ public class PartidoCanchaActivity extends Activity {
     private ImageButton[] btnMedios;
     private ImageButton[] btnOfensivos;
 
+    private TextView TIEMPOPARTIDO;
+    private TextView TIEMPOBALON;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.partido_activity);
+
+
+        TIEMPOPARTIDO = (TextView) findViewById(R.id.txtTiempoPartido);
+        TIEMPOBALON = (TextView) findViewById(R.id.txtTiempoBalon);
+
 
 
         JUGADORES_CANCHA = (ArrayList<Jugador>)getIntent().getSerializableExtra("JUGADORES");
@@ -77,8 +90,8 @@ public class PartidoCanchaActivity extends Activity {
 
         for(Jugador tmp: JUGADORES_CANCHA){
             if (tmp.getPosicion().getDescripcionPosicion().equals("Defensa")) {
-                btnOfensivos[Def] = (ImageButton) findViewById(LISTABOTONES[Def]);
-                btnOfensivos[Def].setOnClickListener(new onClickHandlerJugador(tmp,this));
+                btnDefensas[Def] = (ImageButton) findViewById(LISTABOTONES[Def]);
+                btnDefensas[Def].setOnClickListener(new onClickHandlerJugador(tmp,this));
                 Def++;
             }else  if (tmp.getPosicion().getDescripcionPosicion().equals("Medio")) {
                 btnMedios[Med] = (ImageButton)findViewById(LISTABOTONES[ESQUEMA.getDefensas()+Med]);
@@ -114,8 +127,9 @@ public class PartidoCanchaActivity extends Activity {
         GridView btnGrid = (GridView)findViewById(R.id.btnGrid);
         btnGrid.setAdapter(new ButtonGridView(LISTA_ACCION, this, getBaseContext()));
 
-        TIEMPO_PELOTA = new Chronometer(new Date());
-        TIEMPO_TOTAL = new Chronometer(new Date());
+        TIEMPO_PELOTA = new Chronometer(new Date(),TIEMPOBALON,this);
+
+        TIEMPO_TOTAL = new Chronometer(new Date(),TIEMPOPARTIDO,this);
         TIEMPO_TOTAL.start();
         TIEMPO_PELOTA.start();
 
@@ -125,7 +139,17 @@ public class PartidoCanchaActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        //inflater.inflate(R.menu.menu_menu_principal, menu);
+        inflater.inflate(R.menu.menu_partido, menu);
+        menu.findItem(R.id.resume_time).setVisible(false);
+        //((MenuItem)findViewById(R.id.resume_time)).setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.pause_time).setVisible(!midTime);
+        menu.findItem(R.id.resume_time).setVisible(midTime);
         return true;
     }
 
@@ -135,6 +159,20 @@ public class PartidoCanchaActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        if (id == R.id.pause_time) {
+            TIEMPO_PELOTA.setPause(true);
+            midTime = true;
+            //MenuItem resume = (MenuItem) findViewById(R.id.resume_time);
+            //resume.setVisible(true);
+        }else if (id == R.id.resume_time){
+            TIEMPO_PELOTA.setPause(false);
+            midTime = false;
+            //MenuItem resume = (MenuItem) findViewById(R.id.pause_time);
+            //resume.setVisible(true);
+        }else if (id == R.id.midtime){
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -155,7 +193,8 @@ public class PartidoCanchaActivity extends Activity {
         {
             case 1:
             {
-                openContextMenu(item.getActionView());
+                //PREGUNTAR TARJETA
+                PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,1,1,TIEMPO_TOTAL);
             }
             break;
             case 2:
@@ -164,8 +203,8 @@ public class PartidoCanchaActivity extends Activity {
             }
             break;
         }
-
         return super.onContextItemSelected(item);
+
     }
 
 }
@@ -194,4 +233,7 @@ class TipoPase{
     public void setName(String name) {
         this.name = name;
     }
+
 }
+
+

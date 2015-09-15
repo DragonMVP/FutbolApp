@@ -24,6 +24,7 @@ public class addAccionDialog extends DialogFragment {
     MyListViewAdapter Adapter;
 
     EditText nameAccion;
+    EditText abreviacionAccion;
     Spinner tipoAccion;
     Activity Actividad;
 
@@ -39,6 +40,7 @@ public class addAccionDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.addaction_dialog, null);
         nameAccion = (EditText) view.findViewById(R.id.txtnameAccion);
         tipoAccion = (Spinner) view.findViewById(R.id.spTipoAccion);
+        abreviacionAccion = (EditText) view.findViewById(R.id.txtabreviacionAccion);
 
         List<String> setTypes = new ArrayList();
         setTypes.add("Accion");
@@ -88,21 +90,28 @@ public class addAccionDialog extends DialogFragment {
                     boolean close = false;
                     if (nameAccion.getText().toString().isEmpty())
                         nameAccion.requestFocus();
+                    else if (abreviacionAccion.getText().toString().isEmpty())
+                        abreviacionAccion.requestFocus();
                     else{
                         close = true;
                         Accion tmp = null;
                         String Type = tipoAccion.getSelectedItem().toString();
                         if (Type.equals("Accion"))
-                            tmp= new Accion(-1,nameAccion.getText().toString());
+                            tmp= new Accion(-1,nameAccion.getText().toString(),abreviacionAccion.getText().toString());
                         else if (Type.equals("Pase"))
-                            tmp = new Pase(-1,nameAccion.getText().toString());
+                            tmp = new Pase(-1,nameAccion.getText().toString(),abreviacionAccion.getText().toString());
                         else if (Type.equals("Falta"))
-                            tmp = new Falta(-1,nameAccion.getText().toString());
+                            tmp = new Falta(-1,nameAccion.getText().toString(),abreviacionAccion.getText().toString());
 
                         MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
                         db.addAccion(tmp);
 
-                        ACCION = (db.getUserAccions());
+                        if (tmp instanceof Pase)
+                            ACCION.add(db.getLatestPase());
+                        else if (tmp instanceof Falta)
+                            ACCION.add(db.getLatestFalta());
+                        else
+                            ACCION.add(db.getLatestAccion());
                         db.close();
                         Adapter.notifyDataSetChanged();
 

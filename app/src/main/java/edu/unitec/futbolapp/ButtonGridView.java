@@ -65,7 +65,7 @@ public class ButtonGridView extends BaseAdapter {
         Button btnAccion = (Button)grid.findViewById(R.id.btnAccion);
         StringBuilder SS = new StringBuilder();
         SS.setLength(12);
-        SS.append(LISTA.get(position).getNombreAccion());
+        SS.append(LISTA.get(position).getAbreviacionAccion());
 
         btnAccion.setText(SS.toString());
         btnAccion.setOnClickListener(new View.OnClickListener() {
