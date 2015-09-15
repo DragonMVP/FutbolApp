@@ -154,7 +154,7 @@ public class PartidoMemoria {
         return retVal;
     }
 
-    public int getCountAllJugador(Accion accion){
+    public int getCountAllAccionJugador(Accion accion){
         int retVal = 0;
         for (AccionPartido tmp: Acciones){
             if (accion.equals(tmp.getAccion()))
