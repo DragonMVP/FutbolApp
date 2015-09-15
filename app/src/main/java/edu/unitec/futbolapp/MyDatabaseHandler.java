@@ -707,4 +707,18 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return retVal;
     }
+
+    public List<TipoPase> getTipoPase(){
+        List<TipoPase> retVal = new ArrayList<>();
+        String Query = "SELECT "+ID_TIPOPASE+","+NOMBRE_TIPOPASE+" FROM " + TABLE_TIPOPASE+"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(Query,null);
+        if (cursor.moveToFirst()){
+            retVal.add(new TipoPase(cursor.getInt(0),cursor.getString(1)));
+            while (cursor.moveToNext()){
+                retVal.add(new TipoPase(cursor.getInt(0),cursor.getString(1)));
+            }
+        }
+        return retVal;
+    }
 }

@@ -8,10 +8,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -106,7 +110,10 @@ public class PartidoCanchaActivity extends Activity {
 
 
         LISTA_ACCION = new ArrayList<>();
+        ListView TIPOP = (ListView)findViewById(R.id.btnList);
+
         MyDatabaseHandler db = new MyDatabaseHandler(this.getBaseContext());
+        TIPOP.setAdapter(new ListViewAdapterTipoPase(db.getTipoPase(), getBaseContext(), this));
         LISTA_ACCION = db.getDefaultAccions();
         LISTA_ACCION.addAll(db.getUserAccions());
         db.close();
@@ -235,5 +242,6 @@ class TipoPase{
     }
 
 }
+
 
 
