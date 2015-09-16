@@ -1,12 +1,13 @@
 package edu.unitec.futbolapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by nivx1 on 09/11/2015.
  */
-public class PartidoMemoria {
+public class PartidoMemoria implements Serializable{
     private List<AccionPartido> Acciones;
     private List<CambiosPartido> Cambios;
     private List<PasePartido> Pases;
@@ -161,6 +162,68 @@ public class PartidoMemoria {
                 retVal++;
         }
         return retVal;
+    }
+
+    public int getCountAllGoles(){
+        int retVal = 0;
+        for (AccionPartido tmp: Acciones){
+            if (tmp.getAccion().getAbreviacionAccion().equals("Gol."))
+                retVal++ ;
+        }
+        return retVal;
+    }
+
+    public int getCountAllFaltas(){
+        return Faltas.size();
+    }
+
+    public int getCountAllTarjetasAmarillas(){
+        int retVal = 0;
+        for (FaltaPartido tmp: Faltas){
+            if ((tmp.getCometida()==1) && (tmp.getTarjeta()==1))
+                retVal++ ;
+        }
+        return retVal;
+    }
+
+    public int getCountAllTarjetasRojas(){
+        int retVal = 0;
+        for (FaltaPartido tmp: Faltas){
+            if ((tmp.getCometida()==1) && (tmp.getTarjeta()==2))
+                retVal++ ;
+        }
+        return retVal;
+    }
+
+    public int getCountJugadorPasesCortos(Jugador j){
+        int retVal = 0;
+        for (PasePartido tmp: Pases){
+            if ((tmp.getTipoPase().getName().equals("Corto") && (tmp.getIdJugadorRecibe()==j.getIdJugador())))
+                retVal++ ;
+        }
+        return retVal;
+    }
+
+    public int getCountJugadorPasesMedios(Jugador j){
+        int retVal = 0;
+        for (PasePartido tmp: Pases){
+            if ((tmp.getTipoPase().getName().equals("Medio") && (tmp.getIdJugadorRecibe()==j.getIdJugador())))
+                retVal++ ;
+        }
+        return retVal;
+    }
+
+    public int getCountJugadorPasesLargos(Jugador j){
+        int retVal = 0;
+        for (PasePartido tmp: Pases){
+            if ((tmp.getTipoPase().getName().equals("Largo") && (tmp.getIdJugadorRecibe()==j.getIdJugador())))
+                retVal++ ;
+        }
+        return retVal;
+    }
+
+    public List<JugadorPartido> getJugadores(){
+        return Jugadores;
     }
 
 }
@@ -328,6 +391,8 @@ class PasePartido{
     public void setTIME(String TIME) {
         this.TIME = TIME;
     }
+
+    public TipoPase getTipoPase(){return tipoPase;}
 }
 class JugadorPartido{
     long tiempoEntrada;

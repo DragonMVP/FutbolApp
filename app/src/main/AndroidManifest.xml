@@ -3,8 +3,10 @@
     package="edu.unitec.futbolapp" >
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -40,13 +42,15 @@
         <activity
             android:name=".EsquemaActivity"
             android:label="Esquemas"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".AccionActivity"
-            android:screenOrientation="portrait"
-            android:label="Acciones"></activity>
-        <activity android:name=".PartidoConfigActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AccionActivity"
+            android:label="Acciones"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PartidoConfigActivity"
             android:label="Configuracion partido"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
             android:screenOrientation="portrait" />
         <activity
             android:name=".EquipoActivity"
@@ -55,6 +59,18 @@
         <activity
             android:name=".JugadorActivity"
             android:label="@string/title_activity_jugador" >
+        </activity>
+        <activity
+            android:name=".MedioTiempo"
+            android:label="@string/title_activity_medio_tiempo" >
+        </activity>
+        <activity
+            android:name=".MedioTiempoActivity"
+            android:label="@string/title_activity_medio_tiempo" >
+        </activity>
+        <activity
+            android:name=".JugadorStatsActivity"
+            android:label="@string/title_activity_jugador_stats" >
         </activity>
     </application>
 
