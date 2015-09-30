@@ -70,7 +70,7 @@ public class ButtonGridView extends BaseAdapter {
         btnAccion.setText(SS.toString());
         btnAccion.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public synchronized void onClick(View v) {
                 PartidoCanchaActivity. ACCION_PRINCIPAL = LISTA.get(position);
             }
         });

@@ -1,5 +1,6 @@
 package edu.unitec.futbolapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,26 +15,26 @@ import java.util.ArrayList;
 /**
  * Created by daemon on 09/15/2015.
  */
-public class JugadorStatsActivity extends AppCompatActivity {
+public class JugadorStatsActivity extends Activity {
 
-    ArrayList<JugadorPartido> jugadores;
+    //ArrayList<JugadorPartido> jugadores;
     ListView lista;
     PartidoMemoria pm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jugador);
-        jugadores = (ArrayList<JugadorPartido>)getIntent().getSerializableExtra("JUGADORES");
+        //jugadores = (ArrayList<JugadorPartido>)getIntent().getSerializableExtra("JUGADORES");
         pm = (PartidoMemoria)getIntent().getSerializableExtra("PARTIDOMEMORIA");
 
         lista = (ListView)findViewById(R.id.listJugador);
-        lista.setAdapter(new MyListViewAdapter(jugadores, getBaseContext(), this));
+        lista.setAdapter(new MyListViewAdapter(pm.getJugadores(), getBaseContext(), this));
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                Jugador j = (Jugador)parent.getAdapter().getItem(position);
+                JugadorPartido j = (JugadorPartido)parent.getAdapter().getItem(position);
 
                 JugadorStatsDialog jsd = new JugadorStatsDialog(j, pm);
                 jsd.show(getFragmentManager(),"JugadorStatsDialog");
@@ -41,6 +42,7 @@ public class JugadorStatsActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

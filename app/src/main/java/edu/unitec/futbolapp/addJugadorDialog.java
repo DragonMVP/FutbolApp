@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -44,7 +45,7 @@ public class addJugadorDialog extends DialogFragment {
     Button btnSeleccionar,btnTomar;
     Activity Actividad;
     int IDEQUIPO;
-    String IMGPATH;
+    byte[] BLOP_Picture;
 
     public addJugadorDialog(List<Jugador> Jugadores,MyListViewAdapter Adapter, int IDEQUIPO,Activity Actividad) {
         this.Jugadores = Jugadores;
@@ -63,7 +64,7 @@ public class addJugadorDialog extends DialogFragment {
         btnSeleccionar = (Button)view.findViewById(R.id.btnSeleccionar);
         btnTomar = (Button)view.findViewById(R.id.btnTomar);
        // imgPath = (EditText)view.findViewById(R.id.imgPath);
-        IMGPATH = "";
+        BLOP_Picture = null;
         String[] P={"Portero","Defensa","Medio","Delantero"};
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(Actividad, android.R.layout.simple_spinner_item, P);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -131,9 +132,8 @@ public class addJugadorDialog extends DialogFragment {
                         close = true;
 
                         int SelectedInt = Posicion.getSelectedItemPosition();
-                        if (IMGPATH.equals(""))
-                            IMGPATH="DEFAULT";
-                        Jugador tmp = new Jugador(-1,IDEQUIPO,SelectedInt, nameJugador.getText().toString(),Integer.parseInt(numeroJugador.getText().toString()),IMGPATH);
+
+                        Jugador tmp = new Jugador(-1,IDEQUIPO,SelectedInt, nameJugador.getText().toString(),Integer.parseInt(numeroJugador.getText().toString()),BLOP_Picture);
                         MyDatabaseHandler db = new MyDatabaseHandler(v.getContext());
                         db.addJugador(tmp);
 
@@ -180,7 +180,9 @@ public class addJugadorDialog extends DialogFragment {
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
                         outFile.flush();
                         outFile.close();
-                        IMGPATH = (file.getAbsolutePath());
+                        cropPicture(Uri.fromFile(file));
+
+                        //IMGPATH = (file.getAbsolutePath());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -193,16 +195,41 @@ public class addJugadorDialog extends DialogFragment {
                 }
             } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
+                cropPicture(selectedImage);
+                /*String[] filePath = { MediaStore.Images.Media.DATA };
                 Cursor c = Actividad.getContentResolver().query(selectedImage, filePath, null, null, null);
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 IMGPATH = (picturePath);
+                */
+            } else if (requestCode == 3){
+                Bundle extras = data.getExtras();
+                Bitmap thePic = extras.getParcelable("data");
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                thePic.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+                BLOP_Picture = outputStream.toByteArray();
             }
 
         }
 
+    }
+
+    private void cropPicture(Uri picUri){
+        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+        //indicate image type and Uri
+        cropIntent.setDataAndType(picUri, "image/*");
+        //set crop properties
+        cropIntent.putExtra("crop", "true");
+        //indicate aspect of desired crop
+        cropIntent.putExtra("aspectX", 1);
+        cropIntent.putExtra("aspectY", 1);
+        //indicate output X and Y
+        cropIntent.putExtra("outputX", 256);
+        cropIntent.putExtra("outputY", 256);
+        //retrieve data on return
+        cropIntent.putExtra("return-data", true);
+        startActivityForResult(cropIntent, 3);
     }
 }

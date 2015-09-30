@@ -8,11 +8,11 @@ import java.util.List;
  * Created by nivx1 on 09/11/2015.
  */
 public class PartidoMemoria implements Serializable{
-    private List<AccionPartido> Acciones;
-    private List<CambiosPartido> Cambios;
-    private List<PasePartido> Pases;
-    private List<FaltaPartido> Faltas;
-    private List<JugadorPartido> Jugadores;
+    private ArrayList<AccionPartido> Acciones;
+    private ArrayList<CambiosPartido> Cambios;
+    private ArrayList<PasePartido> Pases;
+    private ArrayList<FaltaPartido> Faltas;
+    private ArrayList<JugadorPartido> Jugadores;
 
     public PartidoMemoria(){
         Acciones = new ArrayList();
@@ -57,6 +57,7 @@ public class PartidoMemoria implements Serializable{
         // Cometida = 0; NO COMETIO
         // Tarjeta = 0; NO TARJETA
         Faltas.add(new FaltaPartido(Fa,Player.getIdJugador(),Cometida,Tarjeta,Cronometro.getTime()));
+        PartidoCanchaActivity.ACCION_PRINCIPAL = null;
         PartidoCanchaActivity.ENVIA_PASE = null;
     }
 
@@ -76,7 +77,7 @@ public class PartidoMemoria implements Serializable{
     public int getCountAllPasesFallidos(){
         int retVal = 0;
         for (PasePartido tmp: Pases){
-            if (tmp.getIdJugadorRecibe() == 1)
+            if (tmp.getIdJugadorRecibe() == -1)
                 retVal++ ;
         }
         return retVal;
@@ -99,32 +100,6 @@ public class PartidoMemoria implements Serializable{
                 retVal++ ;
         }
 
-        return retVal;
-    }
-
-    public List<FaltaPartido> getAllFaltaPartido(){
-        return Faltas;
-    }
-
-    public List<AccionPartido> getAllAccionPartido(){
-        return Acciones;
-    }
-
-    public List<AccionPartido> getAccionPartido(Jugador jugador){
-        List<AccionPartido> retVal = new ArrayList<>();
-        for (AccionPartido tmp: Acciones){
-            if (tmp.getIdJugador() == jugador.getIdJugador())
-                retVal.add(tmp);
-        }
-        return retVal;
-    }
-
-    public List<FaltaPartido> getFaltaPartido(Jugador jugador){
-        List<FaltaPartido> retVal = new ArrayList<>();
-        for (FaltaPartido tmp: Faltas){
-            if (tmp.getIdJugador() == jugador.getIdJugador())
-                retVal.add(tmp);
-        }
         return retVal;
     }
 
@@ -164,10 +139,66 @@ public class PartidoMemoria implements Serializable{
         return retVal;
     }
 
+    public int getCountPaseJugador(Accion accion, Jugador jugador){
+        int retVal = 0;
+        for (PasePartido tmp: Pases){
+            if (tmp.getIdJugadorEnvia() == jugador.getIdJugador() && accion.equals(tmp.pase))
+                retVal++;
+        }
+        return retVal;
+    }
+
+    public int getCountAllPaseJugador(Accion accion){
+        int retVal = 0;
+        for (PasePartido tmp: Pases){
+            if (accion.equals(tmp.pase))
+                retVal++;
+        }
+        return retVal;
+    }
+
+    public int getCountFaltaJugador(Accion accion, Jugador jugador){
+        int retVal = 0;
+        for (FaltaPartido tmp: Faltas){
+            if (tmp.getIdJugador() == jugador.getIdJugador() && accion.equals(tmp.falta))
+                retVal++;
+        }
+        return retVal;
+    }
+
+    public int getCountAllFaltaJugador(Accion accion){
+        int retVal = 0;
+        for (FaltaPartido tmp: Faltas){
+            if (accion.equals(tmp.falta))
+                retVal++;
+        }
+        return retVal;
+    }
+
+    public int getCountAllPaseTipoPase(Pase pase, TipoPase tipo){
+        int retVal = 0;
+        for (PasePartido tmp : Pases){
+            if (tmp.pase.equals(pase) && tmp.getTipoPase().equals(tipo))
+                retVal++;
+        }
+
+        return retVal;
+    }
+
+    public int getCountAllPaseTipoPaseJugador(Jugador jugador,Pase pase, TipoPase tipo){
+        int retVal = 0;
+        for (PasePartido tmp : Pases){
+            if (jugador.getIdJugador() == tmp.getIdJugadorEnvia() && tmp.pase.equals(pase) && tmp.getTipoPase().equals(tipo))
+                retVal++;
+        }
+
+        return retVal;
+    }
+
     public int getCountAllGoles(){
         int retVal = 0;
         for (AccionPartido tmp: Acciones){
-            if (tmp.getAccion().getAbreviacionAccion().equals("Gol."))
+            if (tmp.getAccion().getAbreviacionAccion().equals("GOL."))
                 retVal++ ;
         }
         return retVal;
@@ -198,7 +229,7 @@ public class PartidoMemoria implements Serializable{
     public int getCountJugadorPasesCortos(Jugador j){
         int retVal = 0;
         for (PasePartido tmp: Pases){
-            if ((tmp.getTipoPase().getName().equals("Corto") && (tmp.getIdJugadorRecibe()==j.getIdJugador())))
+            if ((tmp.getTipoPase().getName().equals("Corto") && (tmp.getIdJugadorEnvia()==j.getIdJugador())))
                 retVal++ ;
         }
         return retVal;
@@ -207,7 +238,7 @@ public class PartidoMemoria implements Serializable{
     public int getCountJugadorPasesMedios(Jugador j){
         int retVal = 0;
         for (PasePartido tmp: Pases){
-            if ((tmp.getTipoPase().getName().equals("Medio") && (tmp.getIdJugadorRecibe()==j.getIdJugador())))
+            if ((tmp.getTipoPase().getName().equals("Medio") && (tmp.getIdJugadorEnvia()==j.getIdJugador())))
                 retVal++ ;
         }
         return retVal;
@@ -216,7 +247,7 @@ public class PartidoMemoria implements Serializable{
     public int getCountJugadorPasesLargos(Jugador j){
         int retVal = 0;
         for (PasePartido tmp: Pases){
-            if ((tmp.getTipoPase().getName().equals("Largo") && (tmp.getIdJugadorRecibe()==j.getIdJugador())))
+            if ((tmp.getTipoPase().getName().equals("Largo") && (tmp.getIdJugadorEnvia()==j.getIdJugador())))
                 retVal++ ;
         }
         return retVal;
@@ -228,7 +259,7 @@ public class PartidoMemoria implements Serializable{
 
 }
 
-class CambiosPartido{
+class CambiosPartido implements Serializable{
     int idJugadorEntra;
     int idJugadorSale;
     String TIME;
@@ -263,7 +294,7 @@ class CambiosPartido{
         this.TIME = TIME;
     }
 }
-class AccionPartido{
+class AccionPartido implements Serializable{
     Accion accion;
     int idJugador;
     String TIME;
@@ -298,7 +329,7 @@ class AccionPartido{
         this.TIME = TIME;
     }
 }
-class FaltaPartido{
+class FaltaPartido implements Serializable{
     Falta falta;
     int idJugador;
     int Cometida; // 0 = RECIBIDA; 1 = COMETIDA
@@ -353,7 +384,7 @@ class FaltaPartido{
         this.TIME = TIME;
     }
 }
-class PasePartido{
+class PasePartido implements Serializable{
     Pase pase;
     TipoPase tipoPase;
     int idJugadorEnvia;
@@ -394,7 +425,7 @@ class PasePartido{
 
     public TipoPase getTipoPase(){return tipoPase;}
 }
-class JugadorPartido{
+class JugadorPartido implements Serializable{
     long tiempoEntrada;
     Jugador jugador;
     String TIME;
@@ -429,5 +460,10 @@ class JugadorPartido{
 
     public void setTIME(String TIME) {
         this.TIME = TIME;
+    }
+
+    @Override
+    public String toString() {
+        return jugador.toString();
     }
 }

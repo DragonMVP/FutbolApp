@@ -20,17 +20,17 @@
         android:layout_height="wrap_content"
         android:text="Pases Exitosos"
         android:id="@+id/textView17"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/textView16"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="45dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pases Fallidos"
         android:id="@+id/textView19"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="21dp"
         android:layout_below="@+id/textView17"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:text="Faltas"
         android:id="@+id/textView20"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="27dp"
         android:layout_below="@+id/textView19"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -50,7 +50,8 @@
         android:layout_height="wrap_content"
         android:text="Tarjetas Amarrillas"
         android:id="@+id/textView21"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/textView20"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -59,7 +60,7 @@
         android:layout_height="wrap_content"
         android:text="Tarjetas Rojas"
         android:id="@+id/textView22"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="26dp"
         android:layout_below="@+id/textView21"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -96,8 +97,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textViewTarjetasA"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignBaseline="@+id/textView21"
+        android:layout_alignBottom="@+id/textView21"
+        android:layout_alignLeft="@+id/textViewFaltas"
+        android:layout_alignStart="@+id/textViewFaltas" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -112,7 +115,16 @@
         android:layout_height="wrap_content"
         android:text="Ver Estadísticas Individuales"
         android:id="@+id/butInd"
+        android:layout_marginBottom="44dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="69dp" />
+        android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewAccionesGeneral"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView22"
+        android:layout_above="@+id/butInd" />
 </RelativeLayout>

@@ -1,20 +1,24 @@
 package edu.unitec.futbolapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by daemon on 09/15/2015.
  */
-public class MedioTiempoActivity extends AppCompatActivity {
+public class MedioTiempoActivity extends Activity {
 
     private TextView GOLES;
     private TextView PASESEXITOSOS;
@@ -38,13 +42,29 @@ public class MedioTiempoActivity extends AppCompatActivity {
         pm = (PartidoMemoria)getIntent().getSerializableExtra("PARTIDOMEMORIA");
         fillStats(pm);
 
+        ListView GENERAL_STAT = (ListView)findViewById(R.id.listViewAccionesGeneral);
+        MyDatabaseHandler db = new MyDatabaseHandler(getBaseContext());
+        final List<Accion> tmpAccion = db.getAllAccion();
+        db.close();
+        GENERAL_STAT.setAdapter(new AdapterMidTime(tmpAccion,null,pm,getBaseContext(),this));
+
+        GENERAL_STAT.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (tmpAccion.get(position) instanceof Pase){
+
+                }
+            }
+        });
+
+
         try {
             Button btnInd = (Button) findViewById(R.id.butInd);
             btnInd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(),JugadorStatsActivity.class);
-                    intent.putExtra("JUGADORES", (ArrayList<JugadorPartido>) pm.getJugadores());
+                   // intent.putExtra("JUGADORES", (ArrayList<JugadorPartido>) pm.getJugadores());
                     intent.putExtra("PARTIDOMEMORIA", pm);
                     startActivity(intent);
                 }
@@ -54,6 +74,12 @@ public class MedioTiempoActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        PartidoCanchaActivity.TIEMPO_TOTAL.setPause(false);
+        PartidoCanchaActivity.TIEMPO_PELOTA.setPause(false);
+        super.onBackPressed();
+    }
 
 
     @Override

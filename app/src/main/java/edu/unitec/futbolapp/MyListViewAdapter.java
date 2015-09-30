@@ -63,11 +63,13 @@ public class MyListViewAdapter extends BaseAdapter {
 
         if (LISTA.get(position) instanceof  Jugador){
             Bitmap thumbnail;
-            if (((Jugador)LISTA.get(position)).getFOTO_LOCATION().equals("DEFAULT")){
+            if (((Jugador)LISTA.get(position)).getPICTURE() == null){
                 thumbnail =BitmapFactory.decodeResource(Actividad.getResources(), R.drawable.defaultuser);
-            }else
-                thumbnail = (BitmapFactory.decodeFile(((Jugador)LISTA.get(position)).getFOTO_LOCATION()));
-            imgV.setImageBitmap(thumbnail);
+            }else {
+                thumbnail = BitmapFactory.decodeByteArray(((Jugador) LISTA.get(position)).getPICTURE(), 0, ((Jugador) LISTA.get(position)).getPICTURE().length);
+                imgV.setImageBitmap(thumbnail);
+            }
+
         }
 
         String[] txtList = LISTA.get(position).toString().split(",");

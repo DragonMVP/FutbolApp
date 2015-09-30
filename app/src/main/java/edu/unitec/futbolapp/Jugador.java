@@ -12,16 +12,17 @@ public class Jugador implements Serializable{
     private PosicionCampo posicion;
     private String nombreJugador;
     private int numeroJugador;
-    private String FOTO_LOCATION;
+    private byte[] PICTURE;
+    //private String FOTO_LOCATION;
     //daemon: artificial para el bug de combobox
     private boolean selected = false;
 
-    public String getFOTO_LOCATION() {
-        return FOTO_LOCATION;
+    public byte[] getPICTURE() {
+        return PICTURE;
     }
 
-    public void setFOTO_LOCATION(String FOTO_LOCATION) {
-        this.FOTO_LOCATION = FOTO_LOCATION;
+    public void setPICTURE(byte[] PICTURE) {
+        this.PICTURE = PICTURE;
     }
 
     public Jugador(int idJugador, int idEquipo, PosicionCampo posicion, String nombreJugador, int numeroJugador) {
@@ -40,22 +41,22 @@ public class Jugador implements Serializable{
         this.numeroJugador = numeroJugador;
     }
 
-    public Jugador(int idJugador, int idEquipo, PosicionCampo posicion, String nombreJugador, int numeroJugador, String FOTO_LOCATION) {
+    public Jugador(int idJugador, int idEquipo, PosicionCampo posicion, String nombreJugador, int numeroJugador, byte[] FOTO_LOCATION) {
         this.idJugador = idJugador;
         this.idEquipo = idEquipo;
         this.posicion = posicion;
         this.nombreJugador = nombreJugador;
         this.numeroJugador = numeroJugador;
-        this.FOTO_LOCATION = FOTO_LOCATION;
+        this.PICTURE = FOTO_LOCATION;
     }
 
-    public Jugador(int idJugador, int idEquipo, int posicion, String nombreJugador, int numeroJugador, String FOTO_LOCATION) {
+    public Jugador(int idJugador, int idEquipo, int posicion, String nombreJugador, int numeroJugador, byte[] FOTO_LOCATION) {
         this.idJugador = idJugador;
         this.idEquipo = idEquipo;
         this.posicion = new PosicionCampo(posicion + 1);
         this.nombreJugador = nombreJugador;
         this.numeroJugador = numeroJugador;
-        this.FOTO_LOCATION = FOTO_LOCATION;
+        this.PICTURE = FOTO_LOCATION;
     }
 
     public Jugador(int idJugador, int idEquipo) {
@@ -120,7 +121,15 @@ public class Jugador implements Serializable{
 
 
     @Override
+    public boolean equals(Object o) {
+        if (o instanceof Jugador)
+            return (idJugador == ((Jugador)o).idJugador);
+
+        return false;
+    }
+
+    @Override
     public String toString() {
-        return nombreJugador+","+numeroJugador;
+        return nombreJugador+","+numeroJugador +" - "+posicion.getDescripcionPosicion();
     }
 }
