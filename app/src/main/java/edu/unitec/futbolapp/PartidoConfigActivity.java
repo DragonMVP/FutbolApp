@@ -141,7 +141,10 @@ public class PartidoConfigActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.addClub){
-            List<Jugador> INICIALES = ((ListViewAdapter_JugadoresPartidoConfig)listJugadores.getAdapter()).getIniciales();
+            ListViewAdapter_JugadoresPartidoConfig l = (ListViewAdapter_JugadoresPartidoConfig)listJugadores.getAdapter();
+            l.setEsquema(SELECTED_ESQUEMA);
+            List<Jugador> INICIALES = l.getIniciales();
+            System.out.println(SELECTED_ESQUEMA.toString());
             if (INICIALES == null){
                 Toast.makeText(getBaseContext(),"Jugadores no cumplen con la formacion", Toast.LENGTH_LONG).show();
             }else{

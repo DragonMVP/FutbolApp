@@ -155,6 +155,10 @@ public class ListViewAdapter_JugadoresPartidoConfig extends ArrayAdapter<Jugador
         return convertView;
     }
 
+    public void setEsquema(Esquema e){
+        SELECTED_ESQUEMA = e;
+    }
+
     public List<Jugador> getIniciales(){
         int tmpOfensivo = 0;
         int tmpDefensivo = 0;
