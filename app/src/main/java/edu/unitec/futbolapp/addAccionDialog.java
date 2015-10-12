@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -26,7 +27,9 @@ public class addAccionDialog extends DialogFragment {
     EditText nameAccion;
     EditText abreviacionAccion;
     Spinner tipoAccion;
+    RadioButton accionPortero;
     Activity Actividad;
+    int AccionP = 0;
 
     public addAccionDialog(List<Accion> ACCION, MyListViewAdapter Adapter, Activity A) {
         this.ACCION = ACCION;
@@ -41,6 +44,7 @@ public class addAccionDialog extends DialogFragment {
         nameAccion = (EditText) view.findViewById(R.id.txtnameAccion);
         tipoAccion = (Spinner) view.findViewById(R.id.spTipoAccion);
         abreviacionAccion = (EditText) view.findViewById(R.id.txtabreviacionAccion);
+        accionPortero = (RadioButton)view.findViewById(R.id.accionPortero);
 
         List<String> setTypes = new ArrayList();
         setTypes.add("Accion");
@@ -93,11 +97,16 @@ public class addAccionDialog extends DialogFragment {
                     else if (abreviacionAccion.getText().toString().isEmpty())
                         abreviacionAccion.requestFocus();
                     else{
+                        if (accionPortero.isChecked()){
+                            AccionP = 1;
+                        }else{
+                            AccionP = 0;
+                        }
                         close = true;
                         Accion tmp = null;
                         String Type = tipoAccion.getSelectedItem().toString();
                         if (Type.equals("Accion"))
-                            tmp= new Accion(-1,nameAccion.getText().toString(),abreviacionAccion.getText().toString());
+                            tmp= new Accion(-1,nameAccion.getText().toString(),abreviacionAccion.getText().toString(),AccionP);
                         else if (Type.equals("Pase"))
                             tmp = new Pase(-1,nameAccion.getText().toString(),abreviacionAccion.getText().toString());
                         else if (Type.equals("Falta"))

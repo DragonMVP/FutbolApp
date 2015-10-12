@@ -64,11 +64,12 @@ public class MyListViewAdapter extends BaseAdapter {
         if (LISTA.get(position) instanceof  Jugador){
             Bitmap thumbnail;
             if (((Jugador)LISTA.get(position)).getPICTURE() == null){
-                thumbnail =BitmapFactory.decodeResource(Actividad.getResources(), R.drawable.defaultuser);
+                thumbnail = BitmapFactory.decodeResource(Actividad.getResources(), R.drawable.defaultuser);
             }else {
                 thumbnail = BitmapFactory.decodeByteArray(((Jugador) LISTA.get(position)).getPICTURE(), 0, ((Jugador) LISTA.get(position)).getPICTURE().length);
-                imgV.setImageBitmap(thumbnail);
+
             }
+            imgV.setImageBitmap(thumbnail);
 
         }
 
