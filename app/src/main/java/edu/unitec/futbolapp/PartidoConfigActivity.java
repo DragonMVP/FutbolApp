@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -144,12 +146,14 @@ public class PartidoConfigActivity extends Activity {
             ListViewAdapter_JugadoresPartidoConfig l = (ListViewAdapter_JugadoresPartidoConfig)listJugadores.getAdapter();
             l.setEsquema(SELECTED_ESQUEMA);
             List<Jugador> INICIALES = l.getIniciales();
+            List<Jugador> BANCA = (List)CollectionUtils.subtract(db.getAllPlayers(SELECTED_TEAM.getIdEquipo()), INICIALES);
             System.out.println(SELECTED_ESQUEMA.toString());
             if (INICIALES == null){
                 Toast.makeText(getBaseContext(),"Jugadores no cumplen con la formacion", Toast.LENGTH_LONG).show();
             }else{
                 Intent intent = new Intent(getBaseContext(),PartidoCanchaActivity.class);
                 intent.putExtra("JUGADORES",(ArrayList)INICIALES);
+                intent.putExtra("BANCA", (ArrayList)BANCA);
                 intent.putExtra("ESQUEMA",SELECTED_ESQUEMA);
                 startActivity(intent);
 

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -42,9 +44,14 @@ public class PartidoCanchaActivity extends Activity {
     public static Jugador ENVIA_PASE = null;
     private Esquema ESQUEMA;
     private boolean midTime = false;
+    private String indicador = "";
 
     private List<Jugador> JUGADORES_CANCHA;
-    //private List<Jugador> JUGADORES_BANCA;
+    private List<Jugador> JUGADORES_BANCA;
+
+    private ArrayList<Jugador> defensas;
+    private ArrayList<Jugador> medios;
+    private ArrayList<Jugador> ataque;
 
     private List<Accion> LISTA_ACCION;
     public static Chronometer TIEMPO_TOTAL;
@@ -73,6 +80,9 @@ public class PartidoCanchaActivity extends Activity {
     private TextView TIEMPOPARTIDO;
     private TextView TIEMPOBALON;
 
+    private ButtonGridView ACCIONPORTERO;
+    private GridView btnGrid;
+    private ButtonGridView ACCIONJUGADORES;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,12 +101,13 @@ public class PartidoCanchaActivity extends Activity {
         List<Accion> LISTA_PORTERO = db.getDefaultAccionPortero();
         LISTA_PORTERO.addAll(db.getUserAccionsPortero());
         db.close();
-        ButtonGridView ACCIONJUGADORES = new ButtonGridView(LISTA_ACCION, this, getBaseContext());
-        ButtonGridView ACCIONPORTERO = new ButtonGridView(LISTA_PORTERO,this,getBaseContext());
-        GridView btnGrid = (GridView)findViewById(R.id.btnGrid);
+        ACCIONJUGADORES = new ButtonGridView(LISTA_ACCION, this, getBaseContext());
+        ACCIONPORTERO = new ButtonGridView(LISTA_PORTERO,this,getBaseContext());
+        btnGrid = (GridView)findViewById(R.id.btnGrid);
         btnGrid.setAdapter(ACCIONJUGADORES);
 
         JUGADORES_CANCHA = (ArrayList<Jugador>)getIntent().getSerializableExtra("JUGADORES");
+        JUGADORES_BANCA = (ArrayList<Jugador>)getIntent().getSerializableExtra("BANCA");
         PARTIDO = new PartidoMemoria();
         ESQUEMA =(Esquema)getIntent().getSerializableExtra("ESQUEMA");
         PARTIDO.initJugadoresCancha(JUGADORES_CANCHA);
@@ -105,10 +116,15 @@ public class PartidoCanchaActivity extends Activity {
         btnMedios = new ImageButton[ESQUEMA.getMedios()];
         btnOfensivos= new ImageButton[ESQUEMA.getDelanteros()];
 
+        defensas = new ArrayList<Jugador>();
+        medios = new ArrayList<Jugador>();
+        ataque = new ArrayList<Jugador>();
+
         int Def=0,Med =0,Of = 0;
 
 
         for(Jugador tmp: JUGADORES_CANCHA){
+            tmp.setAyyposicion(tmp.getPosicion().getDescripcionPosicion());
             Bitmap thumbnail;
             if (tmp.getPICTURE() == null){
                 thumbnail = BitmapFactory.decodeResource(getResources(), R.drawable.defaultuser);
@@ -118,22 +134,33 @@ public class PartidoCanchaActivity extends Activity {
             if (tmp.getPosicion().getDescripcionPosicion().equals("Defensa")) {
                 btnDefensas[Def] = (ImageButton) findViewById(LISTABOTONES[Def]);
                 btnDefensas[Def].setImageBitmap(thumbnail);
-                btnDefensas[Def].setOnClickListener(new onClickHandlerJugador(tmp,this,btnGrid,ACCIONJUGADORES));
+                btnDefensas[Def].setOnClickListener(new onClickHandlerJugador(tmp, this, btnGrid, ACCIONJUGADORES));
+                //btnDefensas[Def].setOnCreateContextMenuListener(this);
+                registerForContextMenu(btnDefensas[Def]);
+                defensas.add(tmp);
                 Def++;
             }else  if (tmp.getPosicion().getDescripcionPosicion().equals("Medio")) {
                 btnMedios[Med] = (ImageButton)findViewById(LISTABOTONES[ESQUEMA.getDefensas()+Med]);
                 btnMedios[Med].setImageBitmap(thumbnail);
-                btnMedios[Med].setOnClickListener(new onClickHandlerJugador(tmp,this,btnGrid,ACCIONJUGADORES));
+                btnMedios[Med].setOnClickListener(new onClickHandlerJugador(tmp, this, btnGrid, ACCIONJUGADORES));
+                registerForContextMenu(btnMedios[Med]);
+                medios.add(tmp);
+                //btnMedios[Med].setOnCreateContextMenuListener(this);
                 Med++;
             } else  if (tmp.getPosicion().getDescripcionPosicion().equals("Delantero")) {
                 btnOfensivos[Of] = (ImageButton)findViewById(LISTABOTONES[ESQUEMA.getDefensas()+ESQUEMA.getMedios()+Of]);
                 btnOfensivos[Of].setImageBitmap(thumbnail);
-                btnOfensivos[Of].setOnClickListener(new onClickHandlerJugador(tmp,this,btnGrid,ACCIONJUGADORES));
+                btnOfensivos[Of].setOnClickListener(new onClickHandlerJugador(tmp, this, btnGrid, ACCIONJUGADORES));
+                registerForContextMenu(btnOfensivos[Of]);
+                ataque.add(tmp);
+                //btnOfensivos[Of].setOnCreateContextMenuListener(this);
                 Of++;
             }else if (tmp.getPosicion().getDescripcionPosicion().equals("Portero")){
                 btnPortero = (ImageButton)findViewById(R.id.btnPortero);
                 btnPortero.setImageBitmap(thumbnail);
-                btnPortero.setOnClickListener(new onClickHandlerJugador(tmp,this,btnGrid,ACCIONPORTERO));
+                btnPortero.setOnClickListener(new onClickHandlerJugador(tmp, this, btnGrid, ACCIONPORTERO));
+                registerForContextMenu(btnPortero);
+                //btnPortero.setOnCreateContextMenuListener(this);
             }
         }
 
@@ -214,26 +241,194 @@ public class PartidoCanchaActivity extends Activity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,ContextMenu.ContextMenuInfo menuInfo) {
         //Context menu
+        int k = 0;
+        if(v == btnPortero){
+            System.out.println("lululululu");
+            populateMenu(menu);
+            indicador = "portero0";
+            return;
+        }else{
+            k = btnDefensas.length-1;
+            for(int i = 0; i<k;i++){
+                if(v == btnDefensas[i]){
+                    System.out.println("lelelelele");
+                    populateMenu(menu);
+                    indicador = "defensa"+i;
+                    return;
+                }
+            }
+            k = btnMedios.length-1;
+            for(int i = 0; i<k;i++){
+                    if(v == btnMedios[i]){
+                    System.out.println("lelelelela");
+                        populateMenu(menu);
+                        indicador = "medio"+i;
+                    return;
+                }
+            }
+            k = btnOfensivos.length-1;
+            for(int i = 0; i<k;i++){
+                if(v == btnOfensivos[i]){
+                    System.out.println("lelelelelo");
+                    populateMenu(menu);
+                    indicador = "ofensivo"+i;
+                    return;
+                }
+            }
 
             menu.setHeaderTitle("Falta");
-            menu.add(Menu.NONE, 1, Menu.NONE, "Cometida");
-            menu.add(Menu.NONE, 2, Menu.NONE, "Recibida");
+            menu.add(Menu.NONE, 666, Menu.NONE, "Cometida");
+            menu.add(Menu.NONE, 667, Menu.NONE, "Recibida");
         }
+
+    }
+
+    public void populateMenu(ContextMenu menu){
+        menu.setHeaderTitle("Sustitución");
+        for(int i = 0;i < JUGADORES_BANCA.size();i++){
+            menu.add(Menu.NONE,i,Menu.NONE,JUGADORES_BANCA.get(i).getNombreJugador());
+        }
+    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
         switch(item.getItemId())
         {
-            case 1:
+            case 666:
             {
                 //PREGUNTAR TARJETA
                 PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,1,1,TIEMPO_TOTAL);
             }
             break;
-            case 2:
+            case 667:
             {
                 PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,0,-1,TIEMPO_TOTAL);
+            }
+            break;
+            default: {
+                String ind = indicador.substring(0, indicador.length() - 1);
+                int indi = Integer.parseInt(indicador.substring(indicador.length() - 1));
+                Jugador j = JUGADORES_BANCA.get(item.getItemId());
+                Jugador tmp;
+                Bitmap thumbnail;
+
+
+                if (ind.equals("portero")) {
+                    for(int i = 0; i<JUGADORES_CANCHA.size();i++){
+                        tmp = JUGADORES_CANCHA.get(i);
+                        if (tmp.getAyyPosicion().equals("Portero")) {
+                            PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
+
+                            if (j.getPICTURE() == null) {
+                                btnPortero.setBackgroundResource(R.drawable.defaultuser);
+                            } else {
+                                BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+                                bfOptions.inDither = false;
+                                bfOptions.inPreferredConfig = Bitmap.Config.ALPHA_8;
+                                bfOptions.inSampleSize = 8;
+                                thumbnail = BitmapFactory.decodeByteArray(j.getPICTURE(), 0, j.getPICTURE().length, bfOptions);
+                                btnPortero.setImageBitmap(thumbnail);
+                            }
+
+                            btnPortero = (ImageButton) findViewById(R.id.btnPortero);
+                            //btnPortero.setImageBitmap(thumbnail);
+                            btnPortero.setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONPORTERO));
+                            JUGADORES_CANCHA.remove(tmp);
+                            j.setAyyposicion("Portero");
+                            JUGADORES_CANCHA.add(j);
+                            System.out.println(tmp.getNombreJugador()+".:.:.::::::::::" + j.getNombreJugador());
+                            break;
+                        }
+                    }
+                } else if (ind.equals("defensa")) {
+                    for(int i = 0; i<JUGADORES_CANCHA.size();i++){
+                        tmp = JUGADORES_CANCHA.get(i);
+                        if (tmp.getAyyPosicion().equals("Defensa")) {
+                            if (tmp == defensas.get(indi)) {
+
+                                if (j.getPICTURE() == null) {
+                                    btnDefensas[indi].setBackgroundResource(R.drawable.defaultuser);
+                                } else {
+                                    BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+                                    bfOptions.inDither = false;
+                                    bfOptions.inPreferredConfig = Bitmap.Config.ALPHA_8;
+                                    bfOptions.inSampleSize = 8;
+                                    thumbnail = BitmapFactory.decodeByteArray(j.getPICTURE(), 0, j.getPICTURE().length, bfOptions);
+                                    btnDefensas[indi].setImageBitmap(thumbnail);
+                                }
+
+                                PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
+                                btnDefensas[indi] = (ImageButton) findViewById(LISTABOTONES[indi]);
+                                //btnDefensas[indi].setImageBitmap(thumbnail);
+                                btnDefensas[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
+                                JUGADORES_CANCHA.remove(tmp);
+                                defensas.get(indi).setAyyposicion("Defensa");
+                                JUGADORES_CANCHA.add(defensas.get(indi));
+                                System.out.println(".:.:.::::::::::" + j.getNombreJugador());
+                                break;
+                            }
+                        }
+                    }
+                } else if (ind.equals("medio")) {
+                    for(int i = 0; i<JUGADORES_CANCHA.size();i++){
+                        tmp = JUGADORES_CANCHA.get(i);
+                        if (tmp.getAyyPosicion().equals("Medio")) {
+                            if (tmp == medios.get(indi)) {
+
+                                if (j.getPICTURE() == null) {
+                                    btnMedios[indi].setBackgroundResource(R.drawable.defaultuser);
+                                } else {
+                                    BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+                                    bfOptions.inDither = false;
+                                    bfOptions.inPreferredConfig = Bitmap.Config.ALPHA_8;
+                                    bfOptions.inSampleSize = 8;
+                                    thumbnail = BitmapFactory.decodeByteArray(j.getPICTURE(), 0, j.getPICTURE().length, bfOptions);
+                                    btnMedios[indi].setImageBitmap(thumbnail);
+                                }
+
+                                PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
+                                btnMedios[indi] = (ImageButton) findViewById(LISTABOTONES[ESQUEMA.getDefensas() + indi]);
+
+                                btnMedios[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
+                                JUGADORES_CANCHA.remove(tmp);
+                                medios.get(indi).setAyyposicion("Medio");
+                                JUGADORES_CANCHA.add(medios.get(indi));
+                                System.out.println("+++++++++++++++" + j.getNombreJugador());
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    for(int i = 0; i<JUGADORES_CANCHA.size();i++){
+                        tmp = JUGADORES_CANCHA.get(i);
+                        if (tmp.getAyyPosicion().equals("Delantero")) {
+                            if (tmp == ataque.get(indi)) {
+
+                                if (j.getPICTURE() == null) {
+                                    btnOfensivos[indi].setBackgroundResource(R.drawable.defaultuser);
+                                } else {
+                                    BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+                                    bfOptions.inDither = false;
+                                    bfOptions.inPreferredConfig = Bitmap.Config.ALPHA_8;
+                                    bfOptions.inSampleSize = 8;
+                                    thumbnail = BitmapFactory.decodeByteArray(j.getPICTURE(), 0, j.getPICTURE().length, bfOptions);
+                                    btnOfensivos[indi].setImageBitmap(thumbnail);
+                                }
+
+                                PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
+                                btnOfensivos[indi] = (ImageButton) findViewById(LISTABOTONES[ESQUEMA.getDefensas() + ESQUEMA.getMedios() + indi]);
+                                //btnOfensivos[indi].setImageBitmap(thumbnail);
+                                btnOfensivos[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
+                                JUGADORES_CANCHA.remove(tmp);
+                                ataque.get(indi).setAyyposicion("Delantero");
+                                JUGADORES_CANCHA.add(ataque.get(indi));
+                                System.out.println("---------------"+j.getNombreJugador());
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             break;
         }

@@ -16,6 +16,7 @@ public class Jugador implements Serializable{
     //private String FOTO_LOCATION;
     //daemon: artificial para el bug de combobox
     private boolean selected = false;
+    private String ayyposicion = "";
 
     public byte[] getPICTURE() {
         return PICTURE;
@@ -118,6 +119,10 @@ public class Jugador implements Serializable{
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    public String getAyyPosicion(){return ayyposicion;}
+
+    public void setAyyposicion(String s){this.ayyposicion = s;}
 
 
     @Override
