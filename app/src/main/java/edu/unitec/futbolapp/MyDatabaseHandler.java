@@ -25,7 +25,8 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
     private static final int DEFAULT_PASE = 4;
     private static final int DEFAULT_FALTA = 4;
 
-    // Tablas
+    // Tabla
+    private static final String TABLE_USER="usuario";
     private static final String TABLE_ACCION = "accion";
     private static final String TABLE_CLUB = "club";
     private static final String TABLE_JUGADOR = "jugador";
@@ -46,7 +47,10 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
 
     private static final String TIEMPO_JUEGO = "tiempoJuego";
 
-
+    //Usuarios
+    private static final String NOMBRE_USER="nombreuser";
+    private static final String ID_USER = "idusario";
+    private static final String PASSWORD_USER="passworduser";
     // Club
     private static final String ID_CLUB = "idClub";
     private  static final String NOMBRE_CLUB = "nombreClub";
@@ -111,6 +115,9 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
     private static final String NUM_DEFENSIVA = "numeroDefensiva";
 
     // Crear Tablas
+    private static final String CREATE_TABLE_USER = "CREATE TABLE "
+            + TABLE_USER + "(" + NOMBRE_USER + " TEXT," + PASSWORD_USER + " TEXT,"+ID_USER+" TEXT)";
+
     private static final String CREATE_TABLE_CLUB = "CREATE TABLE "
             + TABLE_CLUB + "(" + ID_CLUB + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + NOMBRE_CLUB
             + " TEXT," + FOTO + " TEXT)";
@@ -212,7 +219,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
                 "INSERT INTO ACCION('nombreAccion','abreviacionAccion','accionPortero') VALUES ('Centro Atrapado','C.AT',1);" +
                 "INSERT INTO ACCION('nombreAccion','abreviacionAccion','accionPortero') VALUES ('Mano a Mano','MaM.',1);";
 
-
+        String INITIAl_USER="INSERT INTO usuario('passworduser','idusario','nombreuser') VALUES ('admin','admin','admin');";
         String[] split = INITIAL_ACCION.split(";");
         for (int i = 0; i < split.length; i++) {
             String tmp = split[i];
@@ -235,6 +242,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         for (String tmp:INITIAL_ACCION_PORTERO.split(";")){
             db.execSQL(tmp);
         }
+        db.execSQL(INITIAl_USER);
     }
 
     @Override
@@ -256,6 +264,7 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CAMBIOPARTIDO);
         db.execSQL(CREATE_TABLE_ESQUEMA);
         db.execSQL(CREATE_TABLE_TIPOPASE);
+        db.execSQL(CREATE_TABLE_USER);
         initDB(db);
     }
 
@@ -277,11 +286,31 @@ public class MyDatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAMBIOPARTIDO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ESQUEMA);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TIPOPASE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
 
         // create new tables
         onCreate(db);
     }
+    public List<Usuario> getAllUsers(){
+        List<Usuario> retVal = new ArrayList();
+        String Query = "SELECT "+NOMBRE_USER+", "+PASSWORD_USER+", "+ ID_USER +" FROM " + TABLE_USER+"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(Query,null);
 
+        if (cursor.moveToFirst()){
+            retVal.add(new Usuario(cursor.getString(0),cursor.getString(1),cursor.getString(2)));
+            while(cursor.moveToNext()){
+                retVal.add(new Usuario(cursor.getString(0),cursor.getString(1),cursor.getString(2)));
+            }
+        }
+
+        cursor.close();
+        db.close();
+
+
+
+        return retVal;
+    }
     public List<Club> getAllClubs(){
         List<Club> retVal = new ArrayList();
         String Query = "SELECT "+ID_CLUB+", "+NOMBRE_CLUB+" FROM " + TABLE_CLUB+"";
