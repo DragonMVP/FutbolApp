@@ -56,6 +56,8 @@ public class PartidoMemoria implements Serializable{
     public void FaltaJugador(Falta Fa,Jugador Player,int Cometida,int Tarjeta, Chronometer Cronometro){
         // Cometida = 0; NO COMETIO
         // Tarjeta = 0; NO TARJETA
+        // Tarjeta = 1; AMARILLA
+        // Tarjeta = 2; ROJA
         Faltas.add(new FaltaPartido(Fa,Player.getIdJugador(),Cometida,Tarjeta,Cronometro.getTime()));
         PartidoCanchaActivity.ACCION_PRINCIPAL = null;
         PartidoCanchaActivity.ENVIA_PASE = null;

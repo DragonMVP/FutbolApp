@@ -44,4 +44,12 @@
         android:id="@+id/spTipoAccion"
         android:spinnerMode="dropdown" />
 
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Portero"
+        android:id="@+id/accionPortero"
+        android:layout_gravity="center_horizontal"
+        android:checked="false" />
+
 </LinearLayout>

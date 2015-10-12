@@ -43,6 +43,8 @@ public class PartidoCanchaActivity extends Activity {
     private Esquema ESQUEMA;
     private boolean midTime = false;
 
+    private boolean menuFalta = false;
+
     private List<Jugador> JUGADORES_CANCHA;
     //private List<Jugador> JUGADORES_BANCA;
 
@@ -212,23 +214,39 @@ public class PartidoCanchaActivity extends Activity {
 
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenu.ContextMenuInfo menuInfo) {
+    public synchronized void onCreateContextMenu(ContextMenu menu, View v,ContextMenu.ContextMenuInfo menuInfo) {
         //Context menu
 
-            menu.setHeaderTitle("Falta");
-            menu.add(Menu.NONE, 1, Menu.NONE, "Cometida");
-            menu.add(Menu.NONE, 2, Menu.NONE, "Recibida");
+
+            if (!menuFalta) {
+                menu.setHeaderTitle("Falta");
+                menu.add(Menu.NONE, 1, Menu.NONE, "Cometida");
+                menu.add(Menu.NONE, 2, Menu.NONE, "Recibida");
+            }else{
+                menuFalta = true;
+                menu.setHeaderTitle("Tarjeta");
+                menu.add(Menu.NONE, 3, Menu.NONE, "Amarilla");
+                menu.add(Menu.NONE,4,Menu.NONE,"Roja");
+                menu.add(Menu.NONE,5,Menu.NONE,"Ninguna");
+            }
         }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public synchronized boolean onContextItemSelected(final MenuItem item) {
         // TODO Auto-generated method stub
         switch(item.getItemId())
         {
             case 1:
             {
                 //PREGUNTAR TARJETA
-                PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,1,1,TIEMPO_TOTAL);
+                //PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,1,1,TIEMPO_TOTAL);
+                menuFalta = true;
+                this.runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                        openContextMenu(item.getActionView());
+                    }
+                });
             }
             break;
             case 2:
@@ -236,6 +254,13 @@ public class PartidoCanchaActivity extends Activity {
                 PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,0,-1,TIEMPO_TOTAL);
             }
             break;
+            case 3:{
+                PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,1,1,TIEMPO_TOTAL);
+            }break;
+            case 4:{
+                PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,1,2,TIEMPO_TOTAL);
+            }break;
+            case 5:{PARTIDO.FaltaJugador((Falta)ACCION_PRINCIPAL,ENVIA_PASE,1,0,TIEMPO_TOTAL);}break;
         }
         return super.onContextItemSelected(item);
 

@@ -61,6 +61,13 @@ public class Accion implements Serializable {
         this.abreviacionAccion = abreviacionAccion;
     }
 
+    public Accion(int idAccion, String nombreAccion, String abreviacionAccion, int accionPortero) {
+        this.idAccion = idAccion;
+        this.nombreAccion = nombreAccion;
+        this.abreviacionAccion = abreviacionAccion;
+        this.accionPortero = accionPortero;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof Accion)
