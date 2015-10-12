@@ -11,7 +11,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -51,7 +51,7 @@
             android:name=".PartidoConfigActivity"
             android:label="Configuracion partido"
             android:screenOrientation="portrait" />
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".EquipoActivity"
             android:label="@string/title_activity_equipo" >

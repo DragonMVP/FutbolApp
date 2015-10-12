@@ -8,27 +8,44 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.List;
 
 public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        final List<Usuario> usuarios;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MyDatabaseHandler db = new MyDatabaseHandler(getBaseContext());
+        final EditText usertext=(EditText) findViewById(R.id.txtboxUsername);
+        final EditText paswordtext=(EditText) findViewById(R.id.txtboxPassword);
+
+        usuarios = db.getAllUsers();
+        db.close();
 
         try {
             Button btnLogin = (Button) findViewById(R.id.btnLogin);
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent menuPrincipal = new Intent(v.getContext(),MenuPrincipalActivity.class);
-                    startActivity(menuPrincipal);
+
+                    for (int i=0;i<usuarios.size();i++) {
+                        if(usuarios.get(i).getUser().equalsIgnoreCase(usertext.getText().toString())&&usuarios.get(i).getPassword().equalsIgnoreCase(paswordtext.getText().toString())) {
+                            Intent menuPrincipal = new Intent(v.getContext(), MenuPrincipalActivity.class);
+                            startActivity(menuPrincipal);
+
+                        }
+                    }
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
