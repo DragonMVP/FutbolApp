@@ -1,6 +1,7 @@
 package edu.unitec.futbolapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -461,6 +462,25 @@ public class PartidoCanchaActivity extends Activity {
         }
         return super.onContextItemSelected(item);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        final CharSequence[] items = {"Si", "No"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("¿Desea terminar el partido?");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                if(items[item].equals("Si")){
+                    finish();
+                }else{
+                    dialog.cancel();
+                }
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }

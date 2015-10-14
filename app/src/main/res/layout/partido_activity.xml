@@ -215,6 +215,7 @@
                 android:layout_toEndOf="@+id/btnJugador6"
                 android:layout_marginLeft="68dp"
                 android:layout_marginStart="68dp" />
+
         </RelativeLayout>
 
 </LinearLayout>
