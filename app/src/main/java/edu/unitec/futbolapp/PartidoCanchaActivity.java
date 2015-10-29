@@ -128,11 +128,11 @@ public class PartidoCanchaActivity extends Activity {
 
         for(Jugador tmp: JUGADORES_CANCHA){
             tmp.setAyyposicion(tmp.getPosicion().getDescripcionPosicion());
-            Bitmap thumbnail;
-            if (tmp.getPICTURE() == null){
+            Bitmap thumbnail = buttonNumberBitmap(tmp);
+            /*if (tmp.getPICTURE() == null){
                 thumbnail = BitmapFactory.decodeResource(getResources(), R.drawable.defaultuser);
             }else
-                thumbnail = BitmapFactory.decodeByteArray(tmp.getPICTURE(), 0, tmp.getPICTURE().length);
+                thumbnail = BitmapFactory.decodeByteArray(tmp.getPICTURE(), 0, tmp.getPICTURE().length);*/
 
             if (tmp.getPosicion().getDescripcionPosicion().equals("Defensa")) {
                 btnDefensas[Def] = (ImageButton) findViewById(LISTABOTONES[Def]);
@@ -252,7 +252,7 @@ public class PartidoCanchaActivity extends Activity {
             return;
         }else{
             k = btnDefensas.length-1;
-            for(int i = 0; i<k;i++){
+            for(int i = 0; i<=k;i++){
                 if(v == btnDefensas[i]){
                     System.out.println("lelelelele");
                     populateMenu(menu);
@@ -261,7 +261,7 @@ public class PartidoCanchaActivity extends Activity {
                 }
             }
             k = btnMedios.length-1;
-            for(int i = 0; i<k;i++){
+            for(int i = 0; i<=k;i++){
                     if(v == btnMedios[i]){
                     System.out.println("lelelelela");
                         populateMenu(menu);
@@ -270,7 +270,7 @@ public class PartidoCanchaActivity extends Activity {
                 }
             }
             k = btnOfensivos.length-1;
-            for(int i = 0; i<k;i++){
+            for(int i = 0; i<=k;i++){
                 if(v == btnOfensivos[i]){
                     System.out.println("lelelelelo");
                     populateMenu(menu);
@@ -347,7 +347,7 @@ public class PartidoCanchaActivity extends Activity {
                         if (tmp.getAyyPosicion().equals("Portero")) {
                             PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
 
-                            if (j.getPICTURE() == null) {
+                            /*if (j.getPICTURE() == null) {
                                 btnPortero.setBackgroundResource(R.drawable.defaultuser);
                             } else {
                                 BitmapFactory.Options bfOptions = new BitmapFactory.Options();
@@ -356,11 +356,13 @@ public class PartidoCanchaActivity extends Activity {
                                 bfOptions.inSampleSize = 8;
                                 thumbnail = BitmapFactory.decodeByteArray(j.getPICTURE(), 0, j.getPICTURE().length, bfOptions);
                                 btnPortero.setImageBitmap(thumbnail);
-                            }
+                            }*/
+
 
                             btnPortero = (ImageButton) findViewById(R.id.btnPortero);
-                            //btnPortero.setImageBitmap(thumbnail);
+                            btnPortero.setImageBitmap(buttonNumberBitmap(j));
                             btnPortero.setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONPORTERO));
+                            //setButtonImageBackgroundResource(btnPortero, j);
                             JUGADORES_CANCHA.remove(tmp);
                             j.setAyyposicion("Portero");
                             JUGADORES_CANCHA.add(j);
@@ -374,7 +376,7 @@ public class PartidoCanchaActivity extends Activity {
                         if (tmp.getAyyPosicion().equals("Defensa")) {
                             if (tmp == defensas.get(indi)) {
 
-                                if (j.getPICTURE() == null) {
+                                /*if (j.getPICTURE() == null) {
                                     btnDefensas[indi].setBackgroundResource(R.drawable.defaultuser);
                                 } else {
                                     BitmapFactory.Options bfOptions = new BitmapFactory.Options();
@@ -383,11 +385,12 @@ public class PartidoCanchaActivity extends Activity {
                                     bfOptions.inSampleSize = 8;
                                     thumbnail = BitmapFactory.decodeByteArray(j.getPICTURE(), 0, j.getPICTURE().length, bfOptions);
                                     btnDefensas[indi].setImageBitmap(thumbnail);
-                                }
+                                }*/
+
 
                                 PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
                                 btnDefensas[indi] = (ImageButton) findViewById(LISTABOTONES[indi]);
-                                //btnDefensas[indi].setImageBitmap(thumbnail);
+                                btnDefensas[indi].setImageBitmap(buttonNumberBitmap(j));
                                 btnDefensas[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
                                 JUGADORES_CANCHA.remove(tmp);
                                 defensas.get(indi).setAyyposicion("Defensa");
@@ -403,7 +406,7 @@ public class PartidoCanchaActivity extends Activity {
                         if (tmp.getAyyPosicion().equals("Medio")) {
                             if (tmp == medios.get(indi)) {
 
-                                if (j.getPICTURE() == null) {
+                                /*if (j.getPICTURE() == null) {
                                     btnMedios[indi].setBackgroundResource(R.drawable.defaultuser);
                                 } else {
                                     BitmapFactory.Options bfOptions = new BitmapFactory.Options();
@@ -412,11 +415,12 @@ public class PartidoCanchaActivity extends Activity {
                                     bfOptions.inSampleSize = 8;
                                     thumbnail = BitmapFactory.decodeByteArray(j.getPICTURE(), 0, j.getPICTURE().length, bfOptions);
                                     btnMedios[indi].setImageBitmap(thumbnail);
-                                }
+                                }*/
+                                //setButtonImageBackgroundResource(btnMedios[indi], j);
 
                                 PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
                                 btnMedios[indi] = (ImageButton) findViewById(LISTABOTONES[ESQUEMA.getDefensas() + indi]);
-
+                                btnMedios[indi].setImageBitmap(buttonNumberBitmap(j));
                                 btnMedios[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
                                 JUGADORES_CANCHA.remove(tmp);
                                 medios.get(indi).setAyyposicion("Medio");
@@ -432,7 +436,7 @@ public class PartidoCanchaActivity extends Activity {
                         if (tmp.getAyyPosicion().equals("Delantero")) {
                             if (tmp == ataque.get(indi)) {
 
-                                if (j.getPICTURE() == null) {
+                                /*if (j.getPICTURE() == null) {
                                     btnOfensivos[indi].setBackgroundResource(R.drawable.defaultuser);
                                 } else {
                                     BitmapFactory.Options bfOptions = new BitmapFactory.Options();
@@ -441,11 +445,12 @@ public class PartidoCanchaActivity extends Activity {
                                     bfOptions.inSampleSize = 8;
                                     thumbnail = BitmapFactory.decodeByteArray(j.getPICTURE(), 0, j.getPICTURE().length, bfOptions);
                                     btnOfensivos[indi].setImageBitmap(thumbnail);
-                                }
+                                }*/
+                                //setButtonImageBackgroundResource(btnOfensivos[indi], j);
 
                                 PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
                                 btnOfensivos[indi] = (ImageButton) findViewById(LISTABOTONES[ESQUEMA.getDefensas() + ESQUEMA.getMedios() + indi]);
-                                //btnOfensivos[indi].setImageBitmap(thumbnail);
+                                btnOfensivos[indi].setImageBitmap(buttonNumberBitmap(j));
                                 btnOfensivos[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
                                 JUGADORES_CANCHA.remove(tmp);
                                 ataque.get(indi).setAyyposicion("Delantero");
@@ -481,6 +486,135 @@ public class PartidoCanchaActivity extends Activity {
         });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private Bitmap buttonNumberBitmap(Jugador tmp){
+        if (tmp.getPICTURE() == null){
+            switch(tmp.getNumeroJugador()){
+                case 1:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.one);
+                case 2:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.two);
+                case 3:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.three);
+                case 4:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.four);
+                case 5:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.five);
+                case 6:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.six);
+                case 7:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.seven);
+                case 8:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.eight);
+                case 9:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.nine);
+                case 10:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.ten);
+                case 11:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.eleven);
+                case 12:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.twelve);
+                case 13:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.thirteen);
+                case 14:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.fourteen);
+                case 15:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.fifteen);
+                case 16:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.sixteen);
+                case 17:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.seventeen);
+                case 18:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.eighteen);
+                case 19:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.nineteen);
+                case 20:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.twenty);
+                case 21:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.twentyone);
+                case 22:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.twentytwo);
+                case 23:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.twentythree);
+                case 24:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.twentyfour);
+                case 25:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.twentyfive);
+                default:
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.defaultuser);
+            }
+
+        }else
+            return BitmapFactory.decodeByteArray(tmp.getPICTURE(), 0, tmp.getPICTURE().length);
+    }
+
+    private void setButtonImageBackgroundResource(ImageButton ib, Jugador j){
+        if (j.getPICTURE() == null){
+            switch(j.getNumeroJugador()){
+                case 1:
+                    ib.setBackgroundResource(R.drawable.one);
+                case 2:
+                    ib.setBackgroundResource(R.drawable.two);
+                case 3:
+                    ib.setBackgroundResource(R.drawable.three);
+                case 4:
+                    ib.setBackgroundResource( R.drawable.four);
+                case 5:
+                    ib.setBackgroundResource(R.drawable.five);
+                case 6:
+                    ib.setBackgroundResource(R.drawable.six);
+                case 7:
+                    ib.setBackgroundResource(R.drawable.seven);
+                case 8:
+                    ib.setBackgroundResource(R.drawable.eight);
+                case 9:
+                    ib.setBackgroundResource(R.drawable.nine);
+                case 10:
+                    ib.setBackgroundResource(R.drawable.ten);
+                case 11:
+                    ib.setBackgroundResource( R.drawable.eleven);
+                case 12:
+                    ib.setBackgroundResource(R.drawable.twelve);
+                case 13:
+                    ib.setBackgroundResource(R.drawable.thirteen);
+                case 14:
+                    ib.setBackgroundResource(R.drawable.fourteen);
+                case 15:
+                    ib.setBackgroundResource(R.drawable.fifteen);
+                case 16:
+                    ib.setBackgroundResource(R.drawable.sixteen);
+                case 17:
+                    ib.setBackgroundResource(R.drawable.seventeen);
+                case 18:
+                    ib.setBackgroundResource(R.drawable.eighteen);
+                case 19:
+                    ib.setBackgroundResource(R.drawable.nineteen);
+                case 20:
+                    ib.setBackgroundResource(R.drawable.twenty);
+                case 21:
+                    ib.setBackgroundResource(R.drawable.twentyone);
+                case 22:
+                    ib.setBackgroundResource(R.drawable.twentytwo);
+                case 23:
+                    ib.setBackgroundResource(R.drawable.twentythree);
+                case 24:
+                    ib.setBackgroundResource(R.drawable.twentyfour);
+                case 25:
+                    ib.setBackgroundResource(R.drawable.twentyfive);
+                default:
+                    ib.setBackgroundResource(R.drawable.defaultuser);
+            }
+
+        }else {
+            Bitmap thumbnail;
+            BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+            bfOptions.inDither = false;
+            bfOptions.inPreferredConfig = Bitmap.Config.ALPHA_8;
+            bfOptions.inSampleSize = 8;
+            thumbnail = BitmapFactory.decodeByteArray(j.getPICTURE(), 0, j.getPICTURE().length, bfOptions);
+            ib.setImageBitmap(thumbnail);
+        }
     }
 
 }
