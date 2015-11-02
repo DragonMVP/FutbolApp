@@ -146,7 +146,7 @@ public class PartidoConfigActivity extends Activity {
             ListViewAdapter_JugadoresPartidoConfig l = (ListViewAdapter_JugadoresPartidoConfig)listJugadores.getAdapter();
             l.setEsquema(SELECTED_ESQUEMA);
             List<Jugador> INICIALES = l.getIniciales();
-            List<Jugador> BANCA = (List)CollectionUtils.subtract(db.getAllPlayers(SELECTED_TEAM.getIdEquipo()), INICIALES);
+            List<Jugador> BANCA = INICIALES;
             System.out.println(SELECTED_ESQUEMA.toString());
             if (INICIALES == null){
                 Toast.makeText(getBaseContext(),"Jugadores no cumplen con la formacion", Toast.LENGTH_LONG).show();

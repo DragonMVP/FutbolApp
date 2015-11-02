@@ -52,9 +52,9 @@ public class PartidoCanchaActivity extends Activity {
     private List<Jugador> JUGADORES_CANCHA;
     private List<Jugador> JUGADORES_BANCA;
 
-    private ArrayList<Jugador> defensas;
-    private ArrayList<Jugador> medios;
-    private ArrayList<Jugador> ataque;
+    //private ArrayList<Jugador> defensas;
+    //private ArrayList<Jugador> medios;
+    //private ArrayList<Jugador> ataque;
 
     private List<Accion> LISTA_ACCION;
     public static Chronometer TIEMPO_TOTAL;
@@ -76,9 +76,12 @@ public class PartidoCanchaActivity extends Activity {
     };
 
     private ImageButton btnPortero;
+    private ImageButton[] btnJugadores;
+    /*
     private ImageButton[] btnDefensas;
     private ImageButton[] btnMedios;
     private ImageButton[] btnOfensivos;
+    */
 
     private TextView TIEMPOPARTIDO;
     private TextView TIEMPOBALON;
@@ -115,15 +118,19 @@ public class PartidoCanchaActivity extends Activity {
         ESQUEMA =(Esquema)getIntent().getSerializableExtra("ESQUEMA");
         PARTIDO.initJugadoresCancha(JUGADORES_CANCHA);
 
-        btnDefensas = new ImageButton[ESQUEMA.getDefensas()];
+        /*btnDefensas = new ImageButton[ESQUEMA.getDefensas()];
         btnMedios = new ImageButton[ESQUEMA.getMedios()];
         btnOfensivos= new ImageButton[ESQUEMA.getDelanteros()];
+        */
 
-        defensas = new ArrayList<Jugador>();
+        btnJugadores = new ImageButton[10];
+
+        /*defensas = new ArrayList<Jugador>();
         medios = new ArrayList<Jugador>();
-        ataque = new ArrayList<Jugador>();
+        ataque = new ArrayList<Jugador>();*/
 
         int Def=0,Med =0,Of = 0;
+        int i = 0;
 
 
         for(Jugador tmp: JUGADORES_CANCHA){
@@ -134,7 +141,7 @@ public class PartidoCanchaActivity extends Activity {
             }else
                 thumbnail = BitmapFactory.decodeByteArray(tmp.getPICTURE(), 0, tmp.getPICTURE().length);*/
 
-            if (tmp.getPosicion().getDescripcionPosicion().equals("Defensa")) {
+            /*if (tmp.getPosicion().getDescripcionPosicion().equals("Defensa")) {
                 btnDefensas[Def] = (ImageButton) findViewById(LISTABOTONES[Def]);
                 btnDefensas[Def].setImageBitmap(thumbnail);
                 btnDefensas[Def].setOnClickListener(new onClickHandlerJugador(tmp, this, btnGrid, ACCIONJUGADORES));
@@ -158,12 +165,17 @@ public class PartidoCanchaActivity extends Activity {
                 ataque.add(tmp);
                 //btnOfensivos[Of].setOnCreateContextMenuListener(this);
                 Of++;
-            }else if (tmp.getPosicion().getDescripcionPosicion().equals("Portero")){
+            }else */if (tmp.getPosicion().getDescripcionPosicion().equals("Portero")){
                 btnPortero = (ImageButton)findViewById(R.id.btnPortero);
                 btnPortero.setImageBitmap(thumbnail);
                 btnPortero.setOnClickListener(new onClickHandlerJugador(tmp, this, btnGrid, ACCIONPORTERO));
                 registerForContextMenu(btnPortero);
                 //btnPortero.setOnCreateContextMenuListener(this);
+            }else{
+                btnJugadores[i] = (ImageButton)findViewById(LISTABOTONES[i]);
+                btnJugadores[i].setImageBitmap(thumbnail);
+                btnJugadores[i].setOnClickListener(new onClickHandlerJugador(tmp, this, btnGrid, ACCIONJUGADORES));
+                registerForContextMenu(btnJugadores[i]);
             }
         }
 
@@ -251,30 +263,12 @@ public class PartidoCanchaActivity extends Activity {
             indicador = "portero0";
             return;
         }else{
-            k = btnDefensas.length-1;
+            k = btnJugadores.length-1;
             for(int i = 0; i<=k;i++){
-                if(v == btnDefensas[i]){
+                if(v == btnJugadores[i]){
                     System.out.println("lelelelele");
                     populateMenu(menu);
-                    indicador = "defensa"+i;
-                    return;
-                }
-            }
-            k = btnMedios.length-1;
-            for(int i = 0; i<=k;i++){
-                    if(v == btnMedios[i]){
-                    System.out.println("lelelelela");
-                        populateMenu(menu);
-                        indicador = "medio"+i;
-                    return;
-                }
-            }
-            k = btnOfensivos.length-1;
-            for(int i = 0; i<=k;i++){
-                if(v == btnOfensivos[i]){
-                    System.out.println("lelelelelo");
-                    populateMenu(menu);
-                    indicador = "ofensivo"+i;
+                    indicador = "jugador"+i;
                     return;
                 }
             }
@@ -370,7 +364,20 @@ public class PartidoCanchaActivity extends Activity {
                             break;
                         }
                     }
-                } else if (ind.equals("defensa")) {
+                } else {
+                    for(int i = 0;i<JUGADORES_CANCHA.size();i++){
+                        tmp = JUGADORES_CANCHA.get(i);
+                        PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
+                        btnJugadores[indi] = (ImageButton) findViewById(LISTABOTONES[indi]);
+                        btnJugadores[indi].setImageBitmap(buttonNumberBitmap(j));
+                        btnJugadores[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
+                        JUGADORES_CANCHA.remove(tmp);
+                        //defensas.get(indi).setAyyposicion("Defensa");
+                        JUGADORES_CANCHA.add(j);
+                        System.out.println(".:.:.::::::::::" + j.getNombreJugador());
+                        break;
+                    }
+                }/*if (ind.equals("defensa")) {
                     for(int i = 0; i<JUGADORES_CANCHA.size();i++){
                         tmp = JUGADORES_CANCHA.get(i);
                         if (tmp.getAyyPosicion().equals("Defensa")) {
@@ -388,7 +395,7 @@ public class PartidoCanchaActivity extends Activity {
                                 }*/
 
 
-                                PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
+                                /*PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
                                 btnDefensas[indi] = (ImageButton) findViewById(LISTABOTONES[indi]);
                                 btnDefensas[indi].setImageBitmap(buttonNumberBitmap(j));
                                 btnDefensas[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
@@ -418,7 +425,7 @@ public class PartidoCanchaActivity extends Activity {
                                 }*/
                                 //setButtonImageBackgroundResource(btnMedios[indi], j);
 
-                                PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
+                                /*PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
                                 btnMedios[indi] = (ImageButton) findViewById(LISTABOTONES[ESQUEMA.getDefensas() + indi]);
                                 btnMedios[indi].setImageBitmap(buttonNumberBitmap(j));
                                 btnMedios[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
@@ -448,7 +455,7 @@ public class PartidoCanchaActivity extends Activity {
                                 }*/
                                 //setButtonImageBackgroundResource(btnOfensivos[indi], j);
 
-                                PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
+                                /*PARTIDO.CambioJugador(tmp, j, TIEMPO_TOTAL);
                                 btnOfensivos[indi] = (ImageButton) findViewById(LISTABOTONES[ESQUEMA.getDefensas() + ESQUEMA.getMedios() + indi]);
                                 btnOfensivos[indi].setImageBitmap(buttonNumberBitmap(j));
                                 btnOfensivos[indi].setOnClickListener(new onClickHandlerJugador(j, this, btnGrid, ACCIONJUGADORES));
@@ -460,7 +467,7 @@ public class PartidoCanchaActivity extends Activity {
                             }
                         }
                     }
-                }
+                }*/
             }
             break;
 

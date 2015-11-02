@@ -160,7 +160,7 @@ public class ListViewAdapter_JugadoresPartidoConfig extends ArrayAdapter<Jugador
     }
 
     public List<Jugador> getIniciales(){
-        int tmpOfensivo = 0;
+        /*int tmpOfensivo = 0;
         int tmpDefensivo = 0;
         int tmpMedio = 0;
         int tmpPorteria = 0;
@@ -183,9 +183,9 @@ public class ListViewAdapter_JugadoresPartidoConfig extends ArrayAdapter<Jugador
         if (tmpPorteria != 1)
             return null;
         if ((tmpDefensivo+tmpMedio+tmpOfensivo+tmpPorteria) !=11)
-            return null;
-
-
-        return INICIALES;
+            return null;*/
+        if(INICIALES.size()==11)
+            return INICIALES;
+        return null;
     }
 }
